@@ -1,0 +1,23 @@
+.btn_follow{
+    padding: 5px 10px;
+    border: 1px solid #333;
+    color: #333;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 15px;
+    transition: all .3s;
+}
+.btn_follow:hover,.btn_follow:focus{
+    text-decoration: none;
+    background-color: #333;
+    color: #fff;
+}
+.back{
+    display: inline-block;
+    text-decoration: underline;
+    color: #333;
+}
+.back:hover,.back:focus{
+    text-decoration: none;
+    color: #3f3f3f;
+}

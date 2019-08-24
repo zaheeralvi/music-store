@@ -1,0 +1,14 @@
+.checkout{
+    padding: 5px 10px;
+    border: 1px solid #333;
+    color: #333;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 15px;
+    transition: all .3s;
+}
+.checkout:hover,.checkout:focus{
+    text-decoration: none;
+    background-color: #333;
+    color: #fff;
+}
