@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
-// import { NavLink } from 'react-router-dom';
-import { Navbar, NavbarBrand, Nav, NavLink } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
+import { Navbar, NavbarBrand, Nav } from 'react-bootstrap';
+import './header.css'
 
 class Header extends Component {
     render() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-                <Navbar.Brand href="#home">Music Store</Navbar.Brand>
+                <NavLink to='/'><Navbar.Brand>Music Store</Navbar.Brand></NavLink>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link href="#features">Features</Nav.Link>
-                        <Nav.Link href="#pricing">Pricing</Nav.Link>
+                        {/* <NavLink to="/">Features</NavLink>
+                        <NavLink to="/">Pricing</NavLink> */}
                     </Nav>
-                    <Nav className=''>
-                        <Nav.Link href="#deets">Cart</Nav.Link>
-                        <Nav.Link href="#memes">Logout</Nav.Link>
+                    <Nav className='navbar_right'>
+                        <NavLink className='link' to="/cart">Cart</NavLink>
+                        <NavLink className='link' to="/admin">Admin</NavLink>
+                        <NavLink className='link' to="/register">Register</NavLink>
+                        <NavLink className='link' to="/login">Login</NavLink>
+                        <NavLink className='link' to="/">Logout</NavLink>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

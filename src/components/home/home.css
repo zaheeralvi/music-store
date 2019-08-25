@@ -22,3 +22,10 @@
   border: 1px solid #eee;
   border-radius: 15px;
 }
+.filter  input{
+  outline: none;
+}
+.filter input:hover,.filter input:focus{
+  box-shadow: none;
+  border-color: #eee;
+}

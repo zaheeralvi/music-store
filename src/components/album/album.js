@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 import './album.css'
 class Album extends Component {
     render() {
@@ -7,7 +8,7 @@ class Album extends Component {
                 <div className='container'>
                     <div className='row'>
                         <div className='col-md-6 col-xs-12 pt-5'>
-                            <a href="#" className='back mb-3'>Back</a>
+                            <NavLink to='/' className='back mb-3'>Back</NavLink>
                             <div className='row'>
                                 <div className='col-sm-4'>
                                     <img src='https://via.placeholder.com/150' className='img-responsive' />

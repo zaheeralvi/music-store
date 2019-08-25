@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 import './cart.css'
 class Cart extends Component {
     render() {
@@ -7,8 +8,8 @@ class Cart extends Component {
                 <div className='container'>
                     <div className='row'>
                         <div className='col-md-6 col-xs-12 pt-5'>
-                            <a href="#" className='back mb-3'>Back</a>
-                            
+                            <NavLink to='/' className='back mb-3'>Back</NavLink>
+
                             <div className='albums'>
                                 <ul className='list-unstyled'>
                                     <li>Album Title 1 - Artist - Price: <span className='price'>$ 5</span> <span className='remove ml-3'>remove</span></li>

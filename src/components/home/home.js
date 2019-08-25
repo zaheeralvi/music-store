@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './home.css'
 import Card from 'react-bootstrap/Card'
 import InputGroup from 'react-bootstrap/InputGroup'
@@ -15,21 +15,21 @@ class Home extends Component {
                         <div className='col-sm-3 sidebar pt-5'>
                             <h4 className='title'>Genre</h4>
                             <ul className='genre_list'>
-                                <li><a href="#">Rock</a></li>
-                                <li><a href="#">Pop</a></li>
-                                <li><a href="#">Electronic</a></li>
-                                <li><a href="#">Hip-Hop</a></li>
+                                <li><NavLink to="/album">Rock</NavLink></li>
+                                <li><NavLink to="/album">Pop</NavLink></li>
+                                <li><NavLink to="/album">Electronic</NavLink></li>
+                                <li><NavLink to="/album">Hip-Hop</NavLink></li>
                             </ul>
                         </div>
                         <div className='col-sm-9 main_content pt-5'>
                             <div className='row'>
                                 <div className='col-12'>
-                                    <div className='filter col-4 float-right'>
+                                    <div className='filter col-md-4 col-xs-12 float-right p-0'>
                                         <InputGroup className="mb-3">
+                                            <FormControl aria-describedby="basic-addon1" />
                                             <InputGroup.Prepend>
                                                 <Button className='btn btn-secondary'>Search</Button>
                                             </InputGroup.Prepend>
-                                            <FormControl aria-describedby="basic-addon1" />
                                         </InputGroup>
                                     </div>
                                 </div>
@@ -38,7 +38,7 @@ class Home extends Component {
                                         <Card.Img variant="top" src="https://via.placeholder.com/70" />
                                         <Card.Body>
                                             <Card.Title>Title</Card.Title>
-                                            <a href=''>Artist</a>
+                                            <NavLink to='/artist'>Artist</NavLink>
                                         </Card.Body>
                                     </Card>
                                 </div>
@@ -47,7 +47,7 @@ class Home extends Component {
                                         <Card.Img variant="top" src="https://via.placeholder.com/70" />
                                         <Card.Body>
                                             <Card.Title>Title</Card.Title>
-                                            <a href=''>Artist</a>
+                                            <NavLink to='/artist'>Artist</NavLink>
                                         </Card.Body>
                                     </Card>
                                 </div>
@@ -56,7 +56,7 @@ class Home extends Component {
                                         <Card.Img variant="top" src="https://via.placeholder.com/70" />
                                         <Card.Body>
                                             <Card.Title>Title</Card.Title>
-                                            <a href=''>Artist</a>
+                                            <NavLink to='/artist'>Artist</NavLink>
                                         </Card.Body>
                                     </Card>
                                 </div>
@@ -65,7 +65,7 @@ class Home extends Component {
                                         <Card.Img variant="top" src="https://via.placeholder.com/70" />
                                         <Card.Body>
                                             <Card.Title>Title</Card.Title>
-                                            <a href=''>Artist</a>
+                                            <NavLink to='/artist'>Artist</NavLink>
                                         </Card.Body>
                                     </Card>
                                 </div>
@@ -74,7 +74,7 @@ class Home extends Component {
                                         <Card.Img variant="top" src="https://via.placeholder.com/70" />
                                         <Card.Body>
                                             <Card.Title>Title</Card.Title>
-                                            <a href=''>Artist</a>
+                                            <NavLink to='/artist'>Artist</NavLink>
                                         </Card.Body>
                                     </Card>
                                 </div>
@@ -83,13 +83,13 @@ class Home extends Component {
                                         <Card.Img variant="top" src="https://via.placeholder.com/70" />
                                         <Card.Body>
                                             <Card.Title>Title</Card.Title>
-                                            <a href=''>Artist</a>
+                                            <NavLink to='/artist'>Artist</NavLink>
                                         </Card.Body>
                                     </Card>
                                 </div>
                             </div>
                             <div>
-                                <ul class="pager text-center mt-3">
+                                <ul className="pager text-center mt-3">
                                     <li><a href="#">Previous</a></li>
                                     <li><a href="#">Next</a></li>
                                 </ul>
