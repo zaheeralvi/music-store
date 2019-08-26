@@ -54,7 +54,7 @@ class Register extends Component {
 			<div className="form_wrapper">
 				<div className="form_container no_border">
 					<div className="title_container">
-						<h2>Register</h2>
+						<h2>Login</h2>
 					</div>
 					<div className="row clearfix">
 						<div className="col-12">

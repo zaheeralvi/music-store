@@ -24,6 +24,16 @@ class Admin extends Component {
                                     <Form.Control type="text" placeholder="Album" />
                                 </Form.Group>
                                 <Form.Group controlId="formGroupPassword">
+                                    <Form.Label>Genre</Form.Label>
+                                    <Form.Control as="select">
+                                        <option value='' selected disabled>Select Genere</option>
+                                        <option value='rock'>Rock</option>
+                                        <option value='pop'>Pop</option>
+                                        <option value='electronic'>Electronic</option>
+                                        <option value='hip-hop'>Hip-Hop</option>
+                                    </Form.Control>
+                                </Form.Group>
+                                <Form.Group controlId="formGroupPassword">
                                     <Form.Label>Thumb Image</Form.Label>
                                     <Form.Control type="file" className='form-control p-1' accept='images/*' placeholder="Thumb Image" />
                                 </Form.Group>
