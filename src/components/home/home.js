@@ -90,8 +90,8 @@ class Home extends Component {
                             </div>
                             <div>
                                 <ul className="pager text-center mt-3">
-                                    <li><a href="#">Previous</a></li>
-                                    <li><a href="#">Next</a></li>
+                                    <li><span>Previous</span></li>
+                                    <li><span>Next</span></li>
                                 </ul>
                             </div>
                         </div>

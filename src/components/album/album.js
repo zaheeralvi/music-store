@@ -11,7 +11,7 @@ class Album extends Component {
                             <NavLink to='/' className='back mb-3'>Back</NavLink>
                             <div className='row'>
                                 <div className='col-sm-4'>
-                                    <img src='https://via.placeholder.com/150' className='img-responsive' />
+                                    <img src='https://via.placeholder.com/150' alt='thumb' className='img-responsive' />
                                 </div>
                                 <div className='col-sm-8'>
                                     <h5 className='title'>Title</h5>
@@ -26,7 +26,7 @@ class Album extends Component {
                                     <li>2. Song b</li>
                                     <li>3. Song c</li>
                                 </ul>
-                                <a className='add_to_cart' href="#">Add to Cart</a>
+                                <a className='add_to_cart' href="/cart">Add to Cart</a>
                             </div>
                         </div>
                     </div>

@@ -17,7 +17,7 @@ class Cart extends Component {
                                     <li>Album Title 3 - Artist - Price: <span className='price'>$ 5</span> <span className='remove ml-3'>remove</span></li>
                                     <li className='total'>Total: $ 15</li>
                                 </ul>
-                                <a className='checkout' href="#">Checkout</a>
+                                <a className='checkout' href='/cart'>Checkout</a>
                             </div>
                         </div>
                     </div>
