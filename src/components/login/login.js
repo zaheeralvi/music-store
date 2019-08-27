@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 // import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import SimpleReactValidator from 'simple-react-validator';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
 import './login.css';
 class Register extends Component {
 
@@ -35,7 +37,7 @@ class Register extends Component {
 			
 			axios.post('/api/user/login', user).then(response => {
 				console.log(response)
-				if(response.status==200){
+				if(response.status===200){
 					
 				}else{
 					console.log('Error Message')
@@ -59,11 +61,11 @@ class Register extends Component {
 					<div className="row clearfix">
 						<div className="col-12">
 							<form onSubmit={this.loginHandler.bind(this)} noValidate>
-								<div className="input_field"> <span><i aria-hidden="true" className="fa fa-envelope"></i></span>
+								<div className="input_field"><span className='fa pt-1'><FontAwesomeIcon icon={faEnvelope} /></span>
 									<input type="email" name="email" placeholder="Email" required onChange={(e) => { this.setState({ email: e.target.value }) }} />
 								</div>
 								{this.validator.message('email', this.state.email, 'required|email')}
-								<div className="input_field"> <span><i aria-hidden="true" className="fa fa-lock"></i></span>
+								<div className="input_field"><span className='fa pt-1'><FontAwesomeIcon icon={faLock} /></span>
 									<input type="password" name="password" placeholder="Password" required onChange={(e) => { this.setState({ password: e.target.value }) }} />
 								</div>
 								{this.validator.message('password', this.state.password, 'required|alpha')}

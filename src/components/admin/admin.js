@@ -26,7 +26,7 @@ class Admin extends Component {
                                 <Form.Group controlId="formGroupPassword">
                                     <Form.Label>Genre</Form.Label>
                                     <Form.Control as="select">
-                                        <option value='' selected disabled>Select Genere</option>
+                                        <option value='' disabled>Select Genere</option>
                                         <option value='rock'>Rock</option>
                                         <option value='pop'>Pop</option>
                                         <option value='electronic'>Electronic</option>
