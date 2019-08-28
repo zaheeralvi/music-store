@@ -3,10 +3,12 @@ const express = require('express');
 const router = express.Router();
 
 const mongoose = require('mongoose');
+const _ = require('lodash');
 
 const db = 'mongodb://localhost/music';
 mongoose.Promise = global.Promise;
 
+const artist = require('../models/artist');
 const album = require('../models/album');
 const user = require('../models/user');
 
@@ -24,41 +26,91 @@ router.get('/albums', function (req, res) {
         if (err) {
             res.send('error occured ' + err);
         } else {
-            res.sendStatus(200);
             res.json(albums);
         }
     });
 });
 
-router.post('/album', function (req, res) {
+router.post('/user/album', function (req, res) {
     var albumobj = new album();
-    console.log(req.body.title)
-    albumobj.title = req.body.title;
-    albumobj.image = req.body.image;
-    albumobj.genre = req.body.genre;
-    albumobj.save(function (err, album) {
-        if (err) {
-            console.log('err' + err);
-        } else {
-            console.log(album)
-            res.json(album);
-        }
-    });
+    var artistobj = new artist();
+    artistobj.name = req.body.artist;
+
+    artistobj.save((err, artist) => {
+        albumobj.artist = artist;
+        albumobj.title = req.body.title;
+        albumobj.image = req.body.image;
+        albumobj.genre = req.body.genre;
+        albumobj.songs = req.body.songs;
+
+        albumobj.save(function (err, album) {
+            if (err) {
+                console.log('err' + err);
+            } else {
+                res.json({ status: 200, message: 'Album Added Seccessfully' });
+            }
+        });
+    })
+
 
 });
 
+router.get('/albums', function (req, res) {
+    album.find({}).exec(function (err, albums) {
+        if (err) {
+            res.send('error occured ' + err);
+        } else {
+            res.json(albums);
+        }
+    });
+});
+
 router.get('/album/:id', function (req, res) {
-    let id = res.params.id;
+    let id = req.params.id;
     album.findById(id).exec(function (err, album) {
         if (err) {
             res.send('error occured ' + err);
         } else {
-            res.sendStatus(200);
             res.json(album);
         }
     });
 });
 
+router.delete('/album/delete', function (req, res) {
+    album.remove({}).exec(function (err, albums) {
+        if (err) {
+            res.send('error occured ' + err);
+        } else {
+            res.json({ albums, status: 200, message: 'All albums are Deleted Successfully' });
+        }
+    });
+});
+
+
+router.get('/artist/:id', function (req, res) {
+    let id = req.params.id;
+
+    album.find({}).exec(function (err, albums) {
+        if (err) {
+            res.send('error occured ' + err);
+        } else {
+            let results = albums.filter(alb => {
+                let data={};
+                data = alb;
+                console.log(data.artist)
+            })
+            let rest = album[0]
+            res.json(rest);
+        }
+    });
+    // artist.findById(id).exec(function (err, artist) {
+    //     if (err) {
+    //         res.send('error occured ' + err);
+    //     } else {
+    //         res.json(artist);
+    //     }
+    // });
+});
 
 // router.patch('/product/:id',function (req,res) {
 
