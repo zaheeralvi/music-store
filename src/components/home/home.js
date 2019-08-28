@@ -84,17 +84,20 @@ class Home extends Component {
                                     </div>
                                 </div>
 
-                                {data.map(album => (
-                                    <div className='col-md-4 col-sm-4 col-xs-6 mb-4'>
-                                        <Card>
-                                            <Card.Img variant="top" src={album.image} />
-                                            <Card.Body>
-                                                <Card.Title>{album.title}</Card.Title>
-                                                <NavLink to={'/artist/' + album.artist._id}>{album.artist.name}</NavLink>
-                                            </Card.Body>
-                                        </Card>
-                                    </div>
-                                ))
+                                {
+                                    data.map(album => (
+                                        <div className='col-md-4 col-sm-4 col-xs-6 mb-4'>
+                                            <Card>
+                                                <NavLink to={'/album/' + album._id}>
+                                                    <Card.Img height='200px' variant="top" src={album.image} />
+                                                </NavLink>
+                                                <Card.Body>
+                                                    <Card.Title className='text-capitalize'>{album.title}</Card.Title>
+                                                    <NavLink className='text-capitalize' to={'/artist/' + album.artist._id}>{album.artist.name}</NavLink>
+                                                </Card.Body>
+                                            </Card>
+                                        </div>
+                                    ))
                                 }
                                 {/* <div className='col-md-4 col-sm-4 col-xs-6 mb-4'>
                                     <Card>

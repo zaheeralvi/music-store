@@ -14,7 +14,7 @@ class MyRouting extends Component{
             <Switch>
                 <Route exact path='/' component={Home} />
                 <Route exact path='/artist/:id' component={Artist} />
-                <Route exact path='/album' component={Album} />
+                <Route exact path='/album/:id' component={Album} />
                 <Route exact path='/cart' component={Cart} />
                 <Route exact path='/admin' component={Admin} />
                 <Route exact path='/register' component={Register} />

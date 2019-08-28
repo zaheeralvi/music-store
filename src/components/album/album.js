@@ -1,8 +1,43 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import axios from 'axios';
 import './album.css'
+
 class Album extends Component {
+    constructor(props) {
+        super(props);
+
+        // initialize state
+        this.state = {
+            album: '',
+            songs: [],
+            artist: ''
+        }
+
+        this.getAlbumData();
+    }
+
+    getAlbumData() {
+        let id = this.props.match.params.id;
+        axios.get('/api/album/' + id).then(response => {
+            console.log(response)
+            if (response.status === 200) {
+                this.setState({
+                    album: response.data,
+                    songs: response.data.songs,
+                    artist: response.data.artist.name
+                })
+                // console.log(this.state.artist)
+                // console.log(this.state.name)
+            } else {
+                console.log('Error Message')
+            }
+        }, error => {
+            console.log(error)
+        })
+    }
     render() {
+        var { album, songs,artist } = this.state;
         return (
             <div className='artist_page'>
                 <div className='container'>
@@ -11,21 +46,25 @@ class Album extends Component {
                             <NavLink to='/' className='back mb-3'>Back</NavLink>
                             <div className='row'>
                                 <div className='col-sm-4'>
-                                    <img src='https://via.placeholder.com/150' alt='thumb' className='img-responsive' />
+                                    <img height='150px' width='150px' src={album.image} alt='thumb' className='img-responsive' />
                                 </div>
                                 <div className='col-sm-8'>
-                                    <h5 className='title'>Title</h5>
-                                    <p className='artist'>Artist</p>
-                                    <p className='genre'>Genre</p>
+                                    <h5 className='title text-capitalize'>{album.title}</h5>
+                                    <p className='artist text-capitalize'>{artist}</p>
+                                    <p className='genre text-capitalize'>{album.genre}</p>
                                 </div>
                             </div>
                             <div className='albums pt-4'>
                                 <h6>Tracklist:</h6>
-                                <ul className='list-unstyled'>
-                                    <li>1. Song a</li>
-                                    <li>2. Song b</li>
-                                    <li>3. Song c</li>
-                                </ul>
+                                <ol className='pl-4'>
+                                    {
+                                        songs.map(song => (
+                                            <li className='text-capitalize'>{song}</li>
+                                        ))
+                                    }
+                                    {/* <li>2. Song b</li>
+                                    <li>3. Song c</li> */}
+                                </ol>
                                 <a className='add_to_cart' href="/cart">Add to Cart</a>
                             </div>
                         </div>

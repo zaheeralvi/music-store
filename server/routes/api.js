@@ -100,7 +100,7 @@ router.get('/artist/:id', function (req, res) {
             res.send('error occured ' + err);
         } else {
             // res.json(artist);
-            album.find({ "artist": `${artist}` }).exec(function (err, albums) {
+            album.find({ "artist": artist }).exec(function (err, albums) {
                 if (err) {
                     res.send('error occured ' + err);
                 } else {
