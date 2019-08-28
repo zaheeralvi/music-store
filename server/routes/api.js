@@ -31,7 +31,7 @@ router.get('/albums', function (req, res) {
     });
 });
 
-router.post('/user/album', function (req, res) {
+router.post('/album', function (req, res) {
     var albumobj = new album();
     var artistobj = new artist();
     artistobj.name = req.body.artist;
@@ -60,7 +60,12 @@ router.get('/albums', function (req, res) {
         if (err) {
             res.send('error occured ' + err);
         } else {
-            res.json(albums);
+            if (albums === undefined || albums.length == 0) {
+                // res.sendStatus(404);
+                res.json({ status: 404, message: 'No Data Found' });
+            } else {
+                res.json({ data: albums, status: 200 });
+            }
         }
     });
 });
@@ -90,26 +95,20 @@ router.delete('/album/delete', function (req, res) {
 router.get('/artist/:id', function (req, res) {
     let id = req.params.id;
 
-    album.find({}).exec(function (err, albums) {
+    artist.findById(id).exec(function (err, artist) {
         if (err) {
             res.send('error occured ' + err);
         } else {
-            let results = albums.filter(alb => {
-                let data={};
-                data = alb;
-                console.log(data.artist)
-            })
-            let rest = album[0]
-            res.json(rest);
+            // res.json(artist);
+            album.find({ "artist": `${artist}` }).exec(function (err, albums) {
+                if (err) {
+                    res.send('error occured ' + err);
+                } else {
+                    res.json(albums);
+                }
+            });
         }
     });
-    // artist.findById(id).exec(function (err, artist) {
-    //     if (err) {
-    //         res.send('error occured ' + err);
-    //     } else {
-    //         res.json(artist);
-    //     }
-    // });
 });
 
 // router.patch('/product/:id',function (req,res) {

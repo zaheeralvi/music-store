@@ -41,7 +41,7 @@ class Admin extends Component {
                 songs: this.state.songs,
                 image: this.state.image,
             }
-            axios.post('/api/user/album', album).then(response => {
+            axios.post('/api/album', album).then(response => {
                 console.log(response)
                 if (response.data.status === 200) {
                     console.log(response.data.message);
@@ -75,6 +75,9 @@ class Admin extends Component {
     imageHandler(e) {
         if (e.target.files[0] != null) {
             let inputValue = e.target;
+            if((inputValue.files[0].size)/1000 > 1000){
+                console.log('File Size is Too Large')
+            }
             var file = inputValue.files[0];
             var myReader = new FileReader();
 
@@ -122,11 +125,11 @@ class Admin extends Component {
                                 </Form.Group>
                                 <Form.Group controlId="formGroupPassword">
                                     <Form.Label>Tracklist</Form.Label>
-                                    <input type="text" name="track1" value={this.state.songs} className='form-control' placeholder="Track 1" required onChange={(e) => { this.songHandler(e, 0) }} />
+                                    <input type="text" name="track1" className='form-control' placeholder="Track 1" required onChange={(e) => { this.songHandler(e, 0) }} />
                                     {/* {this.validator.message('song', this.state.song[0], 'required|alpha')} */}
-                                    <input type="text" name="track2" value={this.state.songs} className='form-control' placeholder="Track 2" required onChange={(e) => { this.songHandler(e, 1) }} />
+                                    <input type="text" name="track2" className='form-control' placeholder="Track 2" required onChange={(e) => { this.songHandler(e, 1) }} />
                                     {/* {this.validator.message('song', this.state.song[1], 'required|alpha')} */}
-                                    <input type="text" name="track3" value={this.state.songs} className='form-control' placeholder="Track 3" required onChange={(e) => { this.songHandler(e, 2) }} />
+                                    <input type="text" name="track3" className='form-control' placeholder="Track 3" required onChange={(e) => { this.songHandler(e, 2) }} />
                                     {/* {this.validator.message('song', this.state.song[2], 'required|alpha')} */}
 
                                     {/* <Form.Control type="text" className='mb-2' placeholder="Track 1" />

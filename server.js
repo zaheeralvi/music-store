@@ -9,7 +9,9 @@ const app=express();
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.use(bodyParser.urlencoded({extended:true}));
+
 app.use(bodyParser.json());
+app.use(bodyParser({limit: '50mb'}));
 
 app.use('/api',api);
 

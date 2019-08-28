@@ -13,7 +13,7 @@ class MyRouting extends Component{
         return(
             <Switch>
                 <Route exact path='/' component={Home} />
-                <Route exact path='/artist' component={Artist} />
+                <Route exact path='/artist/:id' component={Artist} />
                 <Route exact path='/album' component={Album} />
                 <Route exact path='/cart' component={Cart} />
                 <Route exact path='/admin' component={Admin} />
