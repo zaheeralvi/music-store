@@ -82,9 +82,13 @@ class Cart extends Component {
 
     checkoutHandler(){
         console.log(this.state.album)
+        let title=[]
+        this.state.album.forEach(alb=>{
+            title=[...title,alb.title]
+        })
         let data={
-            album: this.state.album,
-            user_Id: localStorage.getItem('userID')
+            album: title,
+            user_Id: localStorage.getItem('username')
         }
         axios.post('/api/checkout',data).then(response => {
             console.log(response)

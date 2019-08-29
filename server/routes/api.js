@@ -211,6 +211,17 @@ router.post('/checkout', function (req, res) {
     });
 });
 
+router.delete('/checkout', function (req, res) {
+
+    checkout.deleteMany().exec(function (err, data){
+        if (err) {
+            res.send('error occured ' + err);
+        } else {
+            res.json({ data,status: 200, message: 'Checkout Table Documents Removed Successfully' });
+        }
+    });
+});
+
 // router.patch('/product/:id',function (req,res) {
 
 //     Product.findByIdAndUpdate(req.params.id,{

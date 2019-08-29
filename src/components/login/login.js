@@ -40,6 +40,7 @@ class Register extends Component {
 				if(response.data.status===200){
 					localStorage.setItem('loggedUser','true');
 					localStorage.setItem('userID',response.data.user[0]._id);
+					localStorage.setItem('username',response.data.user[0].name);
 					// console.log(response.data.user[0]._id)
 					this.props.history.push('/');
 				}else if(response.data.status===404){
