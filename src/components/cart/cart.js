@@ -19,25 +19,31 @@ class Cart extends Component {
 
     getCartData() {
         let id = localStorage.getItem('userID');
-        axios.get('/api/cart/' + id).then(response => {
-            console.log(response)
-            if (response.status === 200) {
-                this.setState({
-                    cart: response.data.cart,
-                    album: response.data.albums
+        if (id != '' && id != undefined && id != null) {
+            axios.get('/api/cart/' + id).then(response => {
+                console.log(response)
+                let albumList = response.data.album.filter((item, index) => {
+                    return response.data.album.indexOf(item) === index
                 })
-            } else {
-                console.log('Error Message')
-            }
-        }, error => {
-            console.log(error)
-        })
+                console.log(albumList)
+                if (response.status === 200) {
+                    this.setState({
+                        cart: response.data.cart,
+                        album: albumList
+                    })
+                } else {
+                    console.log('Error Message')
+                }
+            }, error => {
+                console.log(error)
+            })
+        }
     }
 
     removeHandler(id) {
         // console.log(id)
         let cart = this.state.cart;
-        cart=cart.filter(c=>c.album_id===id);
+        cart = cart.filter(c => c.album_id === id);
         // console.log(cart)
         axios.delete('/api/cart/' + id).then(response => {
             // console.log(response)

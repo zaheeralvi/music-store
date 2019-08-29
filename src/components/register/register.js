@@ -38,10 +38,11 @@ class Register extends Component {
 			console.log(user)
 			
 			axios.post('/api/user', user).then(response => {
-				if(response.status===200){
-					
-				}else{
-					console.log('Error Message')
+				// console.log(response)
+				if(response.data.status===200){
+					this.props.history.push('/login');
+				}else if(response.data.status===422){
+					console.log('Email Already Exist')
 				}
 			  },error=>{
 				  console.log(error)

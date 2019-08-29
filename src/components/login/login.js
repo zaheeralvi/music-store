@@ -33,16 +33,17 @@ class Register extends Component {
 				email: this.state.email,
 				password: this.state.password,
 			}
-			console.log(user)
+			// console.log(user)
 			
 			axios.post('/api/user/login', user).then(response => {
-				console.log(response)
-				if(response.status===200){
+				// console.log(response)
+				if(response.data.status===200){
 					localStorage.setItem('loggedUser','true');
 					localStorage.setItem('userID',response.data.user[0]._id);
-					console.log(response.data.user[0]._id)
-				}else{
-					console.log('Error Message')
+					// console.log(response.data.user[0]._id)
+					this.props.history.push('/');
+				}else if(response.data.status===404){
+					console.log('Invalid Username or Password')
 				}
 			  },error=>{
 				  console.log(error)

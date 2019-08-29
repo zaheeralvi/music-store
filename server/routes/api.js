@@ -152,6 +152,7 @@ router.get('/cart', function (req, res) {
 router.get('/cart/:id', function (req, res) {
 
     let id = req.params.id;
+    console.log(id)
     cart.find().exec(function (err, cart) {
         if (err) {
             res.send('error occured ' + err);

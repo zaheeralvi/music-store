@@ -6,6 +6,9 @@ import Card from 'react-bootstrap/Card'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button'
 import FormControl from 'react-bootstrap/FormControl'
+import Pagination from "react-js-pagination";
+
+
 class Home extends Component {
 
     constructor(props) {
@@ -15,7 +18,8 @@ class Home extends Component {
         this.state = {
             fullData: [],
             data: [],
-            genreList: ['rock', 'pop', 'electronic', 'hip-hop']
+            genreList: ['rock', 'pop', 'electronic', 'hip-hop'],
+            activePage: 1
         }
 
         this.getAlbums();
@@ -73,6 +77,11 @@ class Home extends Component {
         })
     }
 
+    handlePageChange(pageNumber) {
+        console.log(`active page is ${pageNumber}`);
+        this.setState({ activePage: pageNumber });
+    }
+
     render() {
         var { isloaded, genreList, data } = this.state;
         return (
@@ -95,7 +104,7 @@ class Home extends Component {
                                     <div className='filter col-md-4 col-xs-12 float-right p-0'>
                                         <InputGroup className="mb-3">
                                             {/* <FormControl aria-describedby="basic-addon1" /> */}
-                                            <input type='text' className='form-control' onChange={(e)=>this.FilterByName(e.target.value)} />
+                                            <input type='text' className='form-control' onChange={(e) => this.FilterByName(e.target.value)} />
                                             <InputGroup.Prepend>
                                                 <Button className='btn btn-secondary'>Search</Button>
                                             </InputGroup.Prepend>
@@ -134,6 +143,13 @@ class Home extends Component {
                                     <li><span>Previous</span></li>
                                     <li><span>Next</span></li>
                                 </ul>
+                                <Pagination
+                                    activePage={this.state.activePage}
+                                    itemsCountPerPage={9}
+                                    totalItemsCount={20}
+                                    pageRangeDisplayed={2}
+                                    onChange={() => this.handlePageChange}
+                                />
                             </div>
                         </div>
                     </div>

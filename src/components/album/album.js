@@ -37,22 +37,27 @@ class Album extends Component {
         })
     }
 
-    AddToCart(id){
-        console.log(id)
-        let data={
-            album: id,
-            user: localStorage.getItem('userID')
-        }
-        axios.post('/api/cart',data).then(response => {
-            console.log(response)
-            if (response.status === 200) {
-                
-            } else {
-                console.log('Error Message')
+    AddToCart(id) {
+        let userId=localStorage.getItem('userID')
+        if ((userId != '') && (userId != undefined) && (userId != null)) { 
+            console.log(id)
+            let data = {
+                album: id,
+                user: localStorage.getItem('userID')
             }
-        }, error => {
-            console.log(error)
-        })
+            axios.post('/api/cart', data).then(response => {
+                console.log(response)
+                if (response.status === 200) {
+    
+                } else {
+                    console.log('Error Message')
+                }
+            }, error => {
+                console.log(error)
+            })
+        }else{
+            this.props.history.push('/login');
+        }
     }
     render() {
         var { album, songs, artist } = this.state;
@@ -83,7 +88,7 @@ class Album extends Component {
                                     {/* <li>2. Song b</li>
                                     <li>3. Song c</li> */}
                                 </ol>
-                                <button className='add_to_cart' onClick={()=>this.AddToCart(album._id)} >Add to Cart</button>
+                                <button className='add_to_cart' onClick={() => this.AddToCart(album._id)} >Add to Cart</button>
                             </div>
                         </div>
                     </div>
