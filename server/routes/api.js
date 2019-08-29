@@ -92,6 +92,17 @@ router.delete('/album/delete', function (req, res) {
     });
 });
 
+router.delete('/album/delete/:id', function (req, res) {
+    let id = req.params.id;
+    album.findByIdAndRemove(id).exec(function (err, albums) {
+        if (err) {
+            res.send('error occured ' + err);
+        } else {
+            res.json({ albums, status: 200, message: 'album is Deleted Successfully' });
+        }
+    });
+});
+
 
 router.get('/artist/:id', function (req, res) {
     let id = req.params.id;
@@ -127,6 +138,17 @@ router.post('/cart', function (req, res) {
     });
 });
 
+router.get('/cart', function (req, res) {
+
+    cart.find().exec(function (err, cart) {
+        if (err) {
+            res.send('error occured ' + err);
+        } else {
+            res.json({ cart, status: 200});
+        }
+    });
+});
+
 router.get('/cart/:id', function (req, res) {
 
     let id = req.params.id;
@@ -134,11 +156,34 @@ router.get('/cart/:id', function (req, res) {
         if (err) {
             res.send('error occured ' + err);
         } else {
-            cart = cart.filter(c => c.user_id === id)
-            res.json(cart);
+            cart = cart.filter(c => c.user_id === id);
+            let albums = []                          
+            album.find().exec(function (err, albs) {
+                for(let i=0;i<albs.length;i++){
+                    for(let j=0;j<cart.length;j++){
+                        if(albs[i]._id==cart[j].album_id){
+                            albums = [...albums,albs[i]]
+                        }
+                    }
+                }
+                res.json({albums:albums,cart:cart});
+            });
         }
     });
 });
+
+router.delete('/cart/:id', function (req, res) {
+    let id = req.params.id;
+    cart.deleteMany({album_id:id}).exec(function (err, cart) {
+        if (err) {
+            res.send('error occured ' + err);
+        } else {
+            res.json({cart, status: 200, message: 'Cart item Deleted Successfully' });
+        }
+    });
+});
+
+
 // router.patch('/product/:id',function (req,res) {
 
 //     Product.findByIdAndUpdate(req.params.id,{
@@ -232,7 +277,7 @@ router.post('/user/login', function (req, res) {
             res.send('error occured ' + err);
         } else {
             if (users != '') {
-                res.json({ status: 200, message: 'Authenticated Successfully' });
+                res.send({ user: users, status: 200, message: 'Authenticated Successfully' });
             } else {
                 res.json({ status: 404, message: 'Invalid Username or Password' });
             }

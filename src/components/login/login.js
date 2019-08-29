@@ -38,7 +38,9 @@ class Register extends Component {
 			axios.post('/api/user/login', user).then(response => {
 				console.log(response)
 				if(response.status===200){
-					
+					localStorage.setItem('loggedUser','true');
+					localStorage.setItem('userID',response.data.user[0]._id);
+					console.log(response.data.user[0]._id)
 				}else{
 					console.log('Error Message')
 				}

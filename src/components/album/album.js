@@ -41,7 +41,7 @@ class Album extends Component {
         console.log(id)
         let data={
             album: id,
-            user: 'example_user_id'
+            user: localStorage.getItem('userID')
         }
         axios.post('/api/cart',data).then(response => {
             console.log(response)

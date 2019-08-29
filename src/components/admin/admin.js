@@ -125,11 +125,11 @@ class Admin extends Component {
                                 </Form.Group>
                                 <Form.Group controlId="formGroupPassword">
                                     <Form.Label>Tracklist</Form.Label>
-                                    <input type="text" name="track1" className='form-control' placeholder="Track 1" required onChange={(e) => { this.songHandler(e, 0) }} />
+                                    <input type="text" name="track1" className='form-control mb-2' placeholder="Track 1" required onChange={(e) => { this.songHandler(e, 0) }} />
                                     {/* {this.validator.message('song', this.state.song[0], 'required')} */}
-                                    <input type="text" name="track2" className='form-control' placeholder="Track 2" required onChange={(e) => { this.songHandler(e, 1) }} />
+                                    <input type="text" name="track2" className='form-control mb-2' placeholder="Track 2" required onChange={(e) => { this.songHandler(e, 1) }} />
                                     {/* {this.validator.message('song', this.state.song[1], 'required')} */}
-                                    <input type="text" name="track3" className='form-control' placeholder="Track 3" required onChange={(e) => { this.songHandler(e, 2) }} />
+                                    <input type="text" name="track3" className='form-control mb-2' placeholder="Track 3" required onChange={(e) => { this.songHandler(e, 2) }} />
                                     {/* {this.validator.message('song', this.state.song[2], 'required')} */}
 
                                     {/* <Form.Control type="text" className='mb-2' placeholder="Track 1" />

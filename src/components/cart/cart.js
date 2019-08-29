@@ -10,6 +10,7 @@ class Cart extends Component {
         // initialize state
         this.state = {
             cart: [],
+            album: []
         }
 
         this.getCartData();
@@ -17,12 +18,34 @@ class Cart extends Component {
 
 
     getCartData() {
-        let id = 'example_user_idfd';
+        let id = localStorage.getItem('userID');
         axios.get('/api/cart/' + id).then(response => {
             console.log(response)
             if (response.status === 200) {
                 this.setState({
-                    cart: response.data,
+                    cart: response.data.cart,
+                    album: response.data.albums
+                })
+            } else {
+                console.log('Error Message')
+            }
+        }, error => {
+            console.log(error)
+        })
+    }
+
+    removeHandler(id) {
+        // console.log(id)
+        let cart = this.state.cart;
+        cart=cart.filter(c=>c.album_id===id);
+        // console.log(cart)
+        axios.delete('/api/cart/' + id).then(response => {
+            // console.log(response)
+            if (response.status === 200) {
+                let data = this.state.album;
+                data = data.filter(a => a._id !== id)
+                this.setState({
+                    album: data,
                 })
             } else {
                 console.log('Error Message')
@@ -33,6 +56,7 @@ class Cart extends Component {
     }
 
     render() {
+        var { cart, album } = this.state;
         return (
             <div className='artist_page'>
                 <div className='container'>
@@ -42,10 +66,16 @@ class Cart extends Component {
 
                             <div className='albums'>
                                 <ul className='list-unstyled'>
-                                    <li>Album Title 1 - Artist - Price: <span className='price'>$ 5</span> <span className='remove ml-3'>remove</span></li>
-                                    <li>Album Title 2 - Artist - Price: <span className='price'>$ 5</span> <span className='remove ml-3'>remove</span></li>
+
+                                    {
+                                        album.map(item => (
+                                            <li>{item.title} - {item.artist.name} - Price: <span className='price'>$ 5</span> <button onClick={() => this.removeHandler(item._id)} className='remove ml-3'>remove</button></li>
+                                        ))
+                                    }
+
+                                    {/* <li>Album Title 2 - Artist - Price: <span className='price'>$ 5</span> <span className='remove ml-3'>remove</span></li>
                                     <li>Album Title 3 - Artist - Price: <span className='price'>$ 5</span> <span className='remove ml-3'>remove</span></li>
-                                    <li className='total'>Total: $ 15</li>
+                                    <li className='total'>Total: $ 15</li> */}
                                 </ul>
                                 <a className='checkout' href='/cart'>Checkout</a>
                             </div>
