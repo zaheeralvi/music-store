@@ -29,6 +29,14 @@ class Admin extends Component {
             },
         });
 
+        this.getActivities();
+
+    }
+
+    getActivities(){
+        axios.get('/api/checkout').then(response => {
+            console.log(response)
+        })
     }
 
     addAlbumHandler(e) {

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 var cartSchema = mongoose.Schema({
-    album_id: String,
+    album: Object,
     user_id: String,
 });
 

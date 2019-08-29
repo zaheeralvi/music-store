@@ -12,6 +12,7 @@ const artist = require('../models/artist');
 const album = require('../models/album');
 const user = require('../models/user');
 const cart = require('../models/cart');
+const checkout = require('../models/checkout');
 
 mongoose.connect(db, function (err) {
     if (err) {
@@ -127,13 +128,13 @@ router.get('/artist/:id', function (req, res) {
 router.post('/cart', function (req, res) {
 
     var cartobj = new cart();
-    cartobj.album_id = req.body.album;
+    cartobj.album = req.body.album;
     cartobj.user_id = req.body.user;
     cartobj.save((err, cart) => {
         if (err) {
             res.send('error occured ' + err);
         } else {
-            res.json({ cart, status: 200, message: 'Album Add to Cart Successfully' });
+            res.json({ status: 200, message: 'Album Add to Cart Successfully' });
         }
     });
 });
@@ -144,7 +145,7 @@ router.get('/cart', function (req, res) {
         if (err) {
             res.send('error occured ' + err);
         } else {
-            res.json({ cart, status: 200});
+            res.json({ cart, status: 200 });
         }
     });
 });
@@ -158,16 +159,16 @@ router.get('/cart/:id', function (req, res) {
             res.send('error occured ' + err);
         } else {
             cart = cart.filter(c => c.user_id === id);
-            let albums = []                          
+            let albums = []
             album.find().exec(function (err, albs) {
-                for(let i=0;i<albs.length;i++){
-                    for(let j=0;j<cart.length;j++){
-                        if(albs[i]._id==cart[j].album_id){
-                            albums = [...albums,albs[i]]
+                for (let i = 0; i < albs.length; i++) {
+                    for (let j = 0; j < cart.length; j++) {
+                        if (albs[i]._id == cart[j].album._id) {
+                            albums = [...albums, albs[i]]
                         }
                     }
                 }
-                res.json({albums:albums,cart:cart});
+                res.json({ cart: cart });
             });
         }
     });
@@ -175,15 +176,40 @@ router.get('/cart/:id', function (req, res) {
 
 router.delete('/cart/:id', function (req, res) {
     let id = req.params.id;
-    cart.deleteMany({album_id:id}).exec(function (err, cart) {
+    cart.deleteMany({ album: { _id: id } }).exec(function (err, cart) {
         if (err) {
             res.send('error occured ' + err);
         } else {
-            res.json({cart, status: 200, message: 'Cart item Deleted Successfully' });
+            res.json({ cart, status: 200, message: 'Cart item Deleted Successfully' });
         }
     });
 });
 
+
+router.get('/checkout', function (req, res) {
+
+    checkout.find().exec(function (err, data) {
+        if (err) {
+            res.send('error occured ' + err);
+        } else {
+            res.json({ data, status: 200 });
+        }
+    });
+});
+
+router.post('/checkout', function (req, res) {
+
+    var checkoutObj = new checkout();
+    checkoutObj.album = req.body.album;
+    checkoutObj.user_id = req.body.user;
+    checkoutObj.save((err, data) => {
+        if (err) {
+            res.send('error occured ' + err);
+        } else {
+            res.json({ data,status: 200, message: 'Order Placed Successfully' });
+        }
+    });
+});
 
 // router.patch('/product/:id',function (req,res) {
 

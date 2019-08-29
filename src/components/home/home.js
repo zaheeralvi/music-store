@@ -8,7 +8,6 @@ import Button from 'react-bootstrap/Button'
 import FormControl from 'react-bootstrap/FormControl'
 import Pagination from "react-js-pagination";
 
-
 class Home extends Component {
 
     constructor(props) {
@@ -19,7 +18,8 @@ class Home extends Component {
             fullData: [],
             data: [],
             genreList: ['rock', 'pop', 'electronic', 'hip-hop'],
-            activePage: 1
+            activePage: 1,
+            length: 1,
         }
 
         this.getAlbums();
@@ -30,19 +30,13 @@ class Home extends Component {
         axios.get('/api/albums').then(response => {
             console.log(response)
             if (response.status === 200) {
-                // let newData = response.data;
-                // let artistId={
-                //     id: ''
-                // };
-                // for (let i = 0; i < newData.length; i++) {
-                //     newData[i].artist = newData[i].artist.name
-                //     artistId.id=newData[i].artist._id;
-                //     newData[i]={...newData[i],artistId}
-                // }
+                let limit = response.data.filter((item, index) => {
+                    return response.data.indexOf(item) < 9
+                })
                 this.setState({
                     fullData: response.data,
-                    data: response.data,
-                    isloaded: false
+                    data: limit,
+                    length: response.data.length
                 })
                 console.log(this.state.fullData)
             } else {
@@ -51,6 +45,9 @@ class Home extends Component {
         }, error => {
             console.log(error)
         })
+        console.log(this.state.fullData)
+        console.log(this.state.data)
+        console.log(this.state.length)
     }
 
     FilterList(genre) {
@@ -78,9 +75,15 @@ class Home extends Component {
     }
 
     handlePageChange(pageNumber) {
+        let offset=pageNumber*9;
+        // data
         console.log(`active page is ${pageNumber}`);
-        this.setState({ activePage: pageNumber });
+        this.setState({
+            activePage: pageNumber
+        })
+        
     }
+
 
     render() {
         var { isloaded, genreList, data } = this.state;
@@ -146,9 +149,9 @@ class Home extends Component {
                                 <Pagination
                                     activePage={this.state.activePage}
                                     itemsCountPerPage={9}
-                                    totalItemsCount={20}
+                                    totalItemsCount={this.state.length}
                                     pageRangeDisplayed={2}
-                                    onChange={() => this.handlePageChange}
+                                    onChange={this.handlePageChange}
                                 />
                             </div>
                         </div>
