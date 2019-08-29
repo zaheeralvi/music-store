@@ -14,7 +14,8 @@ class Home extends Component {
         // initialize state
         this.state = {
             fullData: [],
-            data: []
+            data: [],
+            genreList: ['rock', 'pop', 'electronic', 'hip-hop']
         }
 
         this.getAlbums();
@@ -49,15 +50,31 @@ class Home extends Component {
     }
 
     FilterList(genre) {
-        console.log(genre)
+        // console.log(genre);
+        let data = [];
+        let newdata = [];
+        data = [...data, this.state.fullData];
+        // console.log(data)
+        newdata = data[0].filter(d => d.genre === genre)
+        this.setState({
+            data: newdata
+        })
+        // console.log(this.state.data)
     }
 
-    getArtistName(artist) {
-        console.log(artist);
+    FilterByName(val) {
+        // console.log(val);
+        let data = [];
+        let newdata = [];
+        data = [...data, this.state.fullData];
+        newdata = data[0].filter(d => d.title.includes(val))
+        this.setState({
+            data: newdata
+        })
     }
 
     render() {
-        var { isloaded, fullData, data } = this.state;
+        var { isloaded, genreList, data } = this.state;
         return (
             <div className="home_page">
                 <div className='container'>
@@ -65,10 +82,11 @@ class Home extends Component {
                         <div className='col-sm-3 sidebar pt-5'>
                             <h4 className='title'>Genre</h4>
                             <ul className='genre_list'>
-                                <li><span onClick='() => this.FilterList.bind("rock")'>Rock</span></li>
-                                <li><span onClick='() => this.FilterList.bind("pop")'>Pop</span></li>
-                                <li><span onClick='() => this.FilterList.bind("electronic")'>Electronic</span></li>
-                                <li><span onClick='() => this.FilterList.bind("hip-hop")'>Hip-Hop</span></li>
+                                {
+                                    genreList.map(genre => (
+                                        <li><button className='btn text-capitalize' onClick={() => this.FilterList(genre)}>{genre}</button></li>
+                                    ))
+                                }
                             </ul>
                         </div>
                         <div className='col-sm-9 main_content pt-5'>
@@ -76,7 +94,8 @@ class Home extends Component {
                                 <div className='col-12'>
                                     <div className='filter col-md-4 col-xs-12 float-right p-0'>
                                         <InputGroup className="mb-3">
-                                            <FormControl aria-describedby="basic-addon1" />
+                                            {/* <FormControl aria-describedby="basic-addon1" /> */}
+                                            <input type='text' className='form-control' onChange={(e)=>this.FilterByName(e.target.value)} />
                                             <InputGroup.Prepend>
                                                 <Button className='btn btn-secondary'>Search</Button>
                                             </InputGroup.Prepend>
