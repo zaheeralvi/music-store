@@ -100,12 +100,12 @@ class Admin extends Component {
                                 <Form.Group controlId="formGroupEmail">
                                     <Form.Label>Artist Name</Form.Label>
                                     <input type="text" name="artist" className='form-control' placeholder="Artist Name" required value={this.state.artist} onChange={(e) => { this.setState({ artist: e.target.value }) }} />
-                                    {this.validator.message('artist', this.state.artist, 'required|alpha')}
+                                    {this.validator.message('artist', this.state.artist, 'required')}
                                 </Form.Group>
                                 <Form.Group controlId="formGroupPassword">
                                     <Form.Label>Album</Form.Label>
                                     <input type="text" name="title" className='form-control' placeholder="Album Title" required value={this.state.title} onChange={(e) => { this.setState({ title: e.target.value }) }} />
-                                    {this.validator.message('title', this.state.title, 'required|alpha')}
+                                    {this.validator.message('title', this.state.title, 'required')}
                                 </Form.Group>
                                 <Form.Group controlId="formGroupPassword">
                                     <Form.Label>Genre</Form.Label>
@@ -116,7 +116,7 @@ class Admin extends Component {
                                         <option value='electronic'>Electronic</option>
                                         <option value='hip-hop'>Hip-Hop</option>
                                     </Form.Control>
-                                    {this.validator.message('genre', this.state.genre, 'required|alpha')}
+                                    {this.validator.message('genre', this.state.genre, 'required')}
                                 </Form.Group>
                                 <Form.Group controlId="formGroupPassword">
                                     <Form.Label>Thumb Image</Form.Label>
@@ -126,11 +126,11 @@ class Admin extends Component {
                                 <Form.Group controlId="formGroupPassword">
                                     <Form.Label>Tracklist</Form.Label>
                                     <input type="text" name="track1" className='form-control' placeholder="Track 1" required onChange={(e) => { this.songHandler(e, 0) }} />
-                                    {/* {this.validator.message('song', this.state.song[0], 'required|alpha')} */}
+                                    {/* {this.validator.message('song', this.state.song[0], 'required')} */}
                                     <input type="text" name="track2" className='form-control' placeholder="Track 2" required onChange={(e) => { this.songHandler(e, 1) }} />
-                                    {/* {this.validator.message('song', this.state.song[1], 'required|alpha')} */}
+                                    {/* {this.validator.message('song', this.state.song[1], 'required')} */}
                                     <input type="text" name="track3" className='form-control' placeholder="Track 3" required onChange={(e) => { this.songHandler(e, 2) }} />
-                                    {/* {this.validator.message('song', this.state.song[2], 'required|alpha')} */}
+                                    {/* {this.validator.message('song', this.state.song[2], 'required')} */}
 
                                     {/* <Form.Control type="text" className='mb-2' placeholder="Track 1" />
                                     <Form.Control type="text" className='mb-2' placeholder="Track 2" />

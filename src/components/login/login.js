@@ -68,7 +68,7 @@ class Register extends Component {
 								<div className="input_field"><span className='fa pt-1'><FontAwesomeIcon icon={faLock} /></span>
 									<input type="password" name="password" placeholder="Password" required onChange={(e) => { this.setState({ password: e.target.value }) }} />
 								</div>
-								{this.validator.message('password', this.state.password, 'required|alpha')}
+								{this.validator.message('password', this.state.password, 'required')}
 								<input className="button" type="submit" value="Login" />
 							</form>
 						</div>

@@ -36,8 +36,26 @@ class Album extends Component {
             console.log(error)
         })
     }
+
+    AddToCart(id){
+        console.log(id)
+        let data={
+            album: id,
+            user: 'example_user_id'
+        }
+        axios.post('/api/cart',data).then(response => {
+            console.log(response)
+            if (response.status === 200) {
+                
+            } else {
+                console.log('Error Message')
+            }
+        }, error => {
+            console.log(error)
+        })
+    }
     render() {
-        var { album, songs,artist } = this.state;
+        var { album, songs, artist } = this.state;
         return (
             <div className='artist_page'>
                 <div className='container'>
@@ -65,7 +83,7 @@ class Album extends Component {
                                     {/* <li>2. Song b</li>
                                     <li>3. Song c</li> */}
                                 </ol>
-                                <a className='add_to_cart' href="/cart">Add to Cart</a>
+                                <button className='add_to_cart' onClick={()=>this.AddToCart(album._id)} >Add to Cart</button>
                             </div>
                         </div>
                     </div>

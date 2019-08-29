@@ -1,7 +1,37 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import axios from 'axios';
 import './cart.css'
 class Cart extends Component {
+
+    constructor(props) {
+        super(props);
+
+        // initialize state
+        this.state = {
+            cart: [],
+        }
+
+        this.getCartData();
+    }
+
+
+    getCartData() {
+        let id = 'example_user_idfd';
+        axios.get('/api/cart/' + id).then(response => {
+            console.log(response)
+            if (response.status === 200) {
+                this.setState({
+                    cart: response.data,
+                })
+            } else {
+                console.log('Error Message')
+            }
+        }, error => {
+            console.log(error)
+        })
+    }
+
     render() {
         return (
             <div className='artist_page'>

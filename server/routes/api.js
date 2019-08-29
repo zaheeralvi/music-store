@@ -11,6 +11,7 @@ mongoose.Promise = global.Promise;
 const artist = require('../models/artist');
 const album = require('../models/album');
 const user = require('../models/user');
+const cart = require('../models/cart');
 
 mongoose.connect(db, function (err) {
     if (err) {
@@ -111,6 +112,33 @@ router.get('/artist/:id', function (req, res) {
     });
 });
 
+
+router.post('/cart', function (req, res) {
+
+    var cartobj = new cart();
+    cartobj.album_id = req.body.album;
+    cartobj.user_id = req.body.user;
+    cartobj.save((err, cart) => {
+        if (err) {
+            res.send('error occured ' + err);
+        } else {
+            res.json({ cart, status: 200, message: 'Album Add to Cart Successfully' });
+        }
+    });
+});
+
+router.get('/cart/:id', function (req, res) {
+
+    let id = req.params.id;
+    cart.find().exec(function (err, cart) {
+        if (err) {
+            res.send('error occured ' + err);
+        } else {
+            cart = cart.filter(c => c.user_id === id)
+            res.json(cart);
+        }
+    });
+});
 // router.patch('/product/:id',function (req,res) {
 
 //     Product.findByIdAndUpdate(req.params.id,{
