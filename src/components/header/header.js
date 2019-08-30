@@ -7,7 +7,6 @@ class Header extends Component {
 
     constructor(props) {
         super(props)
-
         this.state = {
             isLogged: false,
             isAdmin: false
@@ -37,8 +36,8 @@ class Header extends Component {
             isLogged: false,
             isAdmin: false
         })
-        this.props.history.push('/')
-        this.props.history.push('/');
+        console.log(this.props.history);
+        // this.props.history.push('/');
     }
 
     render() {
@@ -64,7 +63,7 @@ class Header extends Component {
                             : null}
                         <NavLink className='link' to="/cart">Cart</NavLink>
                         {this.state.isLogged ?
-                            <button className='link' onClick={() => this.logoutHandler()}>Logout</button>
+                            <button className='link' onClick={() => this.logoutHandler}>Logout</button>
                             : null}
                     </Nav>
                 </Navbar.Collapse>
