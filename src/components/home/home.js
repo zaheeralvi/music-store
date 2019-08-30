@@ -6,7 +6,6 @@ import Card from 'react-bootstrap/Card'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button'
 import FormControl from 'react-bootstrap/FormControl'
-import Pagination from "react-js-pagination";
 
 class Home extends Component {
 
@@ -74,13 +73,11 @@ class Home extends Component {
         })
     }
 
-    handlePageChange(pageNumber) {
-        // let offset = pageNumber * 9;
-        // data
-        console.log(`active page is ${pageNumber}`);
-        this.setState({
-            activePage: pageNumber
-        })
+    handlePageChange(p) {
+        console.log(`active page is ${p}`);
+        // this.setState({
+        //     activePage: pageNumber
+        // })
 
     }
 
@@ -146,16 +143,9 @@ class Home extends Component {
                             </div>
                             <div>
                                 <ul className="pager text-center mt-3">
-                                    <li><span>Previous</span></li>
-                                    <li><span>Next</span></li>
+                                    <li><span onClick={()=>this.handlePageChange('1')}>Previous</span></li>
+                                    <li><span onClick={()=>this.handlePageChange('-1')}>Next</span></li>
                                 </ul>
-                                <Pagination
-                                    activePage={this.state.activePage}
-                                    itemsCountPerPage={9}
-                                    totalItemsCount={this.state.length}
-                                    pageRangeDisplayed={2}
-                                    onChange={this.handlePageChange}
-                                />
                             </div>
                         </div>
                     </div>

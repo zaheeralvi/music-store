@@ -47,6 +47,7 @@ router.post('/album', function (req, res) {
         albumobj.image = req.body.image;
         albumobj.genre = req.body.genre;
         albumobj.songs = req.body.songs;
+        albumobj.price = req.body.price;
 
         albumobj.save(function (err, album) {
             if (err) {
@@ -179,7 +180,7 @@ router.get('/cart/:id', function (req, res) {
 
 router.delete('/cart/:id', function (req, res) {
     let id = req.params.id;
-    cart.deleteMany({ album: { _id: id } }).exec(function (err, cart) {
+    cart.find({ }).exec(function (err, cart) {
         if (err) {
             res.send('error occured ' + err);
         } else {
@@ -225,8 +226,8 @@ router.post('/checkout', function (req, res) {
     });
 });
 
-router.delete('/clear-activities',function(req,res){
-    checkout.deleteMany({}).exec(function(err,data){
+router.delete('/clear-activities', function (req, res) {
+    checkout.deleteMany({}).exec(function (err, data) {
         if (err) {
             res.send('error occured ' + err);
         } else {

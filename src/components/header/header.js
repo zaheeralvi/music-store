@@ -27,7 +27,7 @@ class Header extends Component {
         }, 500);
     }
 
-    logoutHandler() {
+    logoutHandler(val) {
         localStorage.removeItem('loggedUser');
         localStorage.removeItem('userID');
         localStorage.removeItem('username');
@@ -36,8 +36,7 @@ class Header extends Component {
             isLogged: false,
             isAdmin: false
         })
-        console.log(this.props.history);
-        // this.props.history.push('/');
+        window.location.pathname='/';
     }
 
     render() {
@@ -63,7 +62,7 @@ class Header extends Component {
                             : null}
                         <NavLink className='link' to="/cart">Cart</NavLink>
                         {this.state.isLogged ?
-                            <button className='link' onClick={() => this.logoutHandler}>Logout</button>
+                            <button className='link' onClick={() => this.logoutHandler()}>Logout</button>
                             : null}
                     </Nav>
                 </Navbar.Collapse>
