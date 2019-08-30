@@ -5,7 +5,8 @@ var albumSchema = mongoose.Schema({
     artist: Object,
     image: String,
     genre: String,
-    songs: Array
+    songs: Array,
+    price: Number,
 });
 
 module.exports = mongoose.model("album", albumSchema,'albums');

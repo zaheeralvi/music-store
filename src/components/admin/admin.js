@@ -6,7 +6,7 @@ import SimpleReactValidator from 'simple-react-validator';
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button'
-import FormControl from 'react-bootstrap/FormControl'
+// import FormControl from 'react-bootstrap/FormControl'
 
 class Admin extends Component {
 
@@ -18,6 +18,7 @@ class Admin extends Component {
             artist: '',
             title: '',
             genre: '',
+            price: Number,
             songs: [],
             image: '',
             allActivities: [],
@@ -31,6 +32,10 @@ class Admin extends Component {
             },
         });
 
+        if (localStorage.getItem('userRole') !== 'admin') {
+            this.props.history.push('/login')
+            console.log('You are not Allow to visit this page');
+        }
         this.getActivities();
 
     }
@@ -58,6 +63,7 @@ class Admin extends Component {
                 genre: this.state.genre,
                 songs: this.state.songs,
                 image: this.state.image,
+                price: this.state.price,
             }
             axios.post('/api/album', album).then(response => {
                 console.log(response)
@@ -69,6 +75,7 @@ class Admin extends Component {
                         genre: '',
                         songs: [],
                         image: '',
+                        price: Number,
                     })
                 } else {
                     console.log('Error Message')
@@ -109,7 +116,7 @@ class Admin extends Component {
     }
 
     FilterByName(user) {
-        user=user.toLowerCase();
+        user = user.toLowerCase();
         let data = [];
         let newdata = [];
         data = [...data, this.state.allActivities];
@@ -135,6 +142,11 @@ class Admin extends Component {
                                 <Form.Group controlId="formGroupPassword">
                                     <Form.Label>Album</Form.Label>
                                     <input type="text" name="title" className='form-control' placeholder="Album Title" required value={this.state.title} onChange={(e) => { this.setState({ title: e.target.value }) }} />
+                                    {this.validator.message('title', this.state.title, 'required')}
+                                </Form.Group>
+                                <Form.Group controlId="formGroupPassword">
+                                    <Form.Label>Price</Form.Label>
+                                    <input type="number" name="price" className='form-control' placeholder="Album Price" required value={this.state.price} onChange={(e) => { this.setState({ price: e.target.value }) }} />
                                     {this.validator.message('title', this.state.title, 'required')}
                                 </Form.Group>
                                 <Form.Group controlId="formGroupPassword">
@@ -188,12 +200,15 @@ class Admin extends Component {
                                         {
                                             data.map(item => (
                                                 <li>
-                                                    User {item.username} ordered 
-                                                    {item.album.map((alb)=>
-                                                       <span className='album_title'> {alb} </span>
+                                                    User {item.username} ordered
+                                                    {item.album.map((alb) =>
+                                                        <span className='album_title'> {alb} </span>
                                                     )}
                                                 </li>
                                             ))
+                                        }
+                                        {
+                                            data.length === 0 ? 'No Data Found' : null
                                         }
                                         {/* <li>User A liked Artist Z</li> */}
                                     </ul>

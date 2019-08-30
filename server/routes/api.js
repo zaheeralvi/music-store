@@ -22,6 +22,9 @@ mongoose.connect(db, function (err) {
     }
 });
 
+// comment out this line after creating admin user
+require('../seed/admin.js');
+
 // Device Api's
 router.get('/albums', function (req, res) {
     album.find({}).exec(function (err, albums) {
@@ -309,6 +312,7 @@ router.post('/user', function (req, res) {
     newuser.username = req.body.username;
     newuser.email = req.body.email;
     newuser.password = req.body.password;
+    newuser.role = 'user';
     user.find({ email: req.body.email }).exec(function (err, users) {
         if (err) {
             res.send('error occured ' + err);

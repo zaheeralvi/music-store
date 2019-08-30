@@ -4,7 +4,45 @@ import { Navbar, Nav } from 'react-bootstrap';
 import './header.css'
 
 class Header extends Component {
+
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            isLogged: false,
+            isAdmin: false
+        }
+
+        setInterval(() => {
+            if (localStorage.getItem('loggedUser') === 'true') {
+                this.setState({
+                    isLogged: true
+                })
+            }
+
+            if (localStorage.getItem('userRole') === 'admin') {
+                this.setState({
+                    isAdmin: true
+                })
+            }
+        }, 500);
+    }
+
+    logoutHandler() {
+        localStorage.removeItem('loggedUser');
+        localStorage.removeItem('userID');
+        localStorage.removeItem('username');
+        localStorage.removeItem('userRole');
+        this.setState({
+            isLogged: false,
+            isAdmin: false
+        })
+        this.props.history.push('/')
+        this.props.history.push('/');
+    }
+
     render() {
+        var { isAdmin, isLogged } = this.state;
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <NavLink to='/'><Navbar.Brand>Music Store</Navbar.Brand></NavLink>
@@ -15,11 +53,19 @@ class Header extends Component {
                         <NavLink to="/">Pricing</NavLink> */}
                     </Nav>
                     <Nav className='navbar_right'>
+                        {this.state.isAdmin ?
+                            <NavLink className='link' to="/admin">Admin</NavLink>
+                            : null}
+                        {!this.state.isLogged ?
+                            <NavLink className='link' to="/register">Register</NavLink>
+                            : null}
+                        {!this.state.isLogged ?
+                            <NavLink className='link' to="/login">Login</NavLink>
+                            : null}
                         <NavLink className='link' to="/cart">Cart</NavLink>
-                        <NavLink className='link' to="/admin">Admin</NavLink>
-                        <NavLink className='link' to="/register">Register</NavLink>
-                        <NavLink className='link' to="/login">Login</NavLink>
-                        <NavLink className='link' to="/">Logout</NavLink>
+                        {this.state.isLogged ?
+                            <button className='link' onClick={() => this.logoutHandler()}>Logout</button>
+                            : null}
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

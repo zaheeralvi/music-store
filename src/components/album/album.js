@@ -39,14 +39,14 @@ class Album extends Component {
 
     AddToCart(id) {
         let userId=localStorage.getItem('userID')
-        if ((userId != '') && (userId != undefined) && (userId != null)) { 
+        if ((userId !== '') && (userId !== undefined) && (userId != null)) { 
             let data = {
                 album: id,
                 user: localStorage.getItem('userID')
             }
             axios.post('/api/cart', data).then(response => {
                 // console.log(response)
-                if (response.status == 200) {
+                if (response.status === 200) {
                     console.log("Album Add to Cart Successfully")
                 } else {
                     console.log('Error Message')

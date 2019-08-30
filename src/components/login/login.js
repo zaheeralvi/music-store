@@ -36,11 +36,12 @@ class Register extends Component {
 			// console.log(user)
 			
 			axios.post('/api/user/login', user).then(response => {
-				// console.log(response)
+				console.log(response)
 				if(response.data.status===200){
 					localStorage.setItem('loggedUser','true');
 					localStorage.setItem('userID',response.data.user[0]._id);
 					localStorage.setItem('username',response.data.user[0].username);
+					localStorage.setItem('userRole',response.data.user[0].role);
 					// console.log(response.data.user[0]._id)
 					this.props.history.push('/');
 				}else if(response.data.status===404){

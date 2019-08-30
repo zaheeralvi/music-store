@@ -75,18 +75,18 @@ class Home extends Component {
     }
 
     handlePageChange(pageNumber) {
-        let offset=pageNumber*9;
+        // let offset = pageNumber * 9;
         // data
         console.log(`active page is ${pageNumber}`);
         this.setState({
             activePage: pageNumber
         })
-        
+
     }
 
 
     render() {
-        var { isloaded, genreList, data } = this.state;
+        var { genreList, data } = this.state;
         return (
             <div className="home_page">
                 <div className='container'>
@@ -107,7 +107,7 @@ class Home extends Component {
                                     <div className='filter col-md-4 col-xs-12 float-right p-0'>
                                         <InputGroup className="mb-3">
                                             {/* <FormControl aria-describedby="basic-addon1" /> */}
-                                            <input type='text' className='form-control' onChange={(e) => this.FilterByName(e.target.value)} />
+                                            <input type='text' className='form-control' placeholder='Filter by Album Name' onChange={(e) => this.FilterByName(e.target.value)} />
                                             <InputGroup.Prepend>
                                                 <Button className='btn btn-secondary'>Search</Button>
                                             </InputGroup.Prepend>
@@ -117,7 +117,7 @@ class Home extends Component {
 
                                 {
                                     data.map(album => (
-                                        <div className='col-md-4 col-sm-4 col-xs-6 mb-4'>
+                                        <div className='col-md-4 col-sm-5 col-xs-6 mb-4'>
                                             <Card>
                                                 <NavLink to={'/album/' + album._id}>
                                                     <Card.Img height='200px' variant="top" src={album.image} />
@@ -129,6 +129,9 @@ class Home extends Component {
                                             </Card>
                                         </div>
                                     ))
+                                }
+                                {
+                                    data.length === 0 ? <div className='col-12 text-center'><h5>No Data Found</h5></div> : null
                                 }
                                 {/* <div className='col-md-4 col-sm-4 col-xs-6 mb-4'>
                                     <Card>
