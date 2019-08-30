@@ -50,7 +50,7 @@ class Register extends Component {
 					localStorage.setItem('username', response.data.inserteduser.username);
 					localStorage.setItem('userRole', response.data.inserteduser.role);
 					this.notify(response.data.message)
-					this.props.history.push('/login');
+					this.props.history.push('/');
 				} else if (response.data.status === 422) {
 					this.notify(response.data.message)
 					// console.log('Email Already Exist')
