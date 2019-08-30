@@ -154,22 +154,22 @@ router.get('/cart/:id', function (req, res) {
 
     let id = req.params.id;
     console.log(id)
-    cart.find().exec(function (err, cart) {
+    cart.find({ user_id: id }).exec(function (err, cart) {
         if (err) {
             res.send('error occured ' + err);
         } else {
-            cart = cart.filter(c => c.user_id === id);
-            let albums = []
-            album.find().exec(function (err, albs) {
-                for (let i = 0; i < albs.length; i++) {
-                    for (let j = 0; j < cart.length; j++) {
-                        if (albs[i]._id == cart[j].album._id) {
-                            albums = [...albums, albs[i]]
-                        }
-                    }
-                }
-                res.json({ cart: cart });
-            });
+            // cart = cart.filter(c => c.user_id === id);
+            // let albums = []
+            // album.find().exec(function (err, albs) {
+            //     for (let i = 0; i < albs.length; i++) {
+            //         for (let j = 0; j < cart.length; j++) {
+            //             if (albs[i]._id == cart[j].album._id) {
+            //                 albums = [...albums, albs[i]]
+            //             }
+            //         }
+            //     }
+            // });
+            res.json({ cart: cart });
         }
     });
 });
@@ -188,6 +188,7 @@ router.delete('/cart/:id', function (req, res) {
 
 router.get('/checkout', function (req, res) {
 
+    // let id = req.params.id;
     checkout.find().exec(function (err, data) {
         if (err) {
             res.send('error occured ' + err);
@@ -199,25 +200,45 @@ router.get('/checkout', function (req, res) {
 
 router.post('/checkout', function (req, res) {
 
-    var checkoutObj = new checkout();
-    checkoutObj.album = req.body.album;
-    checkoutObj.user_id = req.body.user;
-    checkoutObj.save((err, data) => {
+    cart.deleteMany({ user_id: req.body.user_id }).exec(function (err, data) {
         if (err) {
             res.send('error occured ' + err);
         } else {
-            res.json({ data,status: 200, message: 'Order Placed Successfully' });
+            // console.log(data.n)
+            if (data.n > 0) {
+                var checkoutObj = new checkout();
+                checkoutObj.album = req.body.album;
+                checkoutObj.user_id = req.body.user_id;
+                checkoutObj.username = req.body.username;
+                checkoutObj.save((err, data) => {
+                    if (err) {
+                        res.send('error occured ' + err);
+                    } else {
+                        res.json({ data, status: 200, message: 'Order Placed Successfully' });
+                    }
+                });
+            }
         }
     });
 });
 
-router.delete('/checkout', function (req, res) {
-
-    checkout.deleteMany().exec(function (err, data){
+router.delete('/clear-activities',function(req,res){
+    checkout.deleteMany({}).exec(function(err,data){
         if (err) {
             res.send('error occured ' + err);
         } else {
-            res.json({ data,status: 200, message: 'Checkout Table Documents Removed Successfully' });
+            res.json(data)
+        }
+    })
+});
+
+router.delete('/checkout', function (req, res) {
+
+    checkout.deleteMany({}).exec(function (err, data) {
+        if (err) {
+            res.send('error occured ' + err);
+        } else {
+            res.json({ data, status: 200, message: 'Checkout Table Documents Removed Successfully' });
         }
     });
 });

@@ -20,6 +20,8 @@ class Admin extends Component {
             genre: '',
             songs: [],
             image: '',
+            allActivities: [],
+            data: [],
         }
 
         // initialize validation messages
@@ -33,9 +35,17 @@ class Admin extends Component {
 
     }
 
-    getActivities(){
+    getActivities() {
+        // let id=localStorage.getItem('userID');
         axios.get('/api/checkout').then(response => {
             console.log(response)
+            if (response.data.status === 200) {
+                this.setState({
+                    allActivities: response.data.data,
+                    data: response.data.data,
+                })
+            }
+            console.log(this.state.data)
         })
     }
 
@@ -83,7 +93,7 @@ class Admin extends Component {
     imageHandler(e) {
         if (e.target.files[0] != null) {
             let inputValue = e.target;
-            if((inputValue.files[0].size)/1000 > 1000){
+            if ((inputValue.files[0].size) / 1000 > 1000) {
                 console.log('File Size is Too Large')
             }
             var file = inputValue.files[0];
@@ -97,7 +107,19 @@ class Admin extends Component {
             myReader.readAsDataURL(file);
         }
     }
+
+    FilterByName(user) {
+        user=user.toLowerCase();
+        let data = [];
+        let newdata = [];
+        data = [...data, this.state.allActivities];
+        newdata = data[0].filter(d => d.username.toLowerCase().includes(user))
+        this.setState({
+            data: newdata
+        })
+    }
     render() {
+        var { data } = this.state;
         return (
             <div className='admin_page pt-5'>
                 <div className='container'>
@@ -155,15 +177,25 @@ class Admin extends Component {
                             <div className='col-12 filter'>
                                 <h5>Filter by User:</h5>
                                 <InputGroup className="mb-3">
-                                    <FormControl aria-describedby="basic-addon1" placeholder='username' />
+                                    {/* <FormControl aria-describedby="basic-addon1" placeholder='username' /> */}
+                                    <input type='text' className='form-control' onChange={(e) => this.FilterByName(e.target.value)} />
                                     <InputGroup.Prepend>
                                         <Button className='btn btn-secondary'>Filter</Button>
                                     </InputGroup.Prepend>
                                 </InputGroup>
                                 <div className='activity_container'>
                                     <ul className='p-0'>
-                                        <li>User A Purchased X, Y</li>
-                                        <li>User A liked Artist Z</li>
+                                        {
+                                            data.map(item => (
+                                                <li>
+                                                    User {item.username} ordered 
+                                                    {item.album.map((alb)=>
+                                                       <span className='album_title'> {alb} </span>
+                                                    )}
+                                                </li>
+                                            ))
+                                        }
+                                        {/* <li>User A liked Artist Z</li> */}
                                     </ul>
                                 </div>
                             </div>

@@ -36,6 +36,7 @@ class Cart extends Component {
                         // console.log(albumList)
                     }else{
                         for (let j = 0; j < albumList.length; j++) {
+                            // console.log(response.data.cart[i].album._id+' '+albumList[j].album._id)
                             if(response.data.cart[i].album._id==albumList[j].album._id){
                                 albumList[j].qty= albumList[j].qty +1;
                                 // console.log(albumList[j])
@@ -83,12 +84,13 @@ class Cart extends Component {
     checkoutHandler(){
         console.log(this.state.album)
         let title=[]
-        this.state.album.forEach(alb=>{
-            title=[...title,alb.title]
-        })
+        for(let i=0;i<this.state.album.length;i++){
+            title=[...title,this.state.album[i].album.title]
+        }
         let data={
             album: title,
-            user_Id: localStorage.getItem('username')
+            username: localStorage.getItem('username'),
+            user_id: localStorage.getItem('userID'),
         }
         axios.post('/api/checkout',data).then(response => {
             console.log(response)
@@ -115,7 +117,7 @@ class Cart extends Component {
 
                                     {
                                         album.map(item => (
-                                            <li>{item.album.title} - {item.album.artist.name} - Price: <span className='price'>$ 5</span> <button onClick={() => this.removeHandler(item._id)} className='remove ml-3'>remove</button></li>
+                                            <li>{item.album.title} - {item.album.artist.name} - Price: <span className='price'>$ 5 Quantity: {item.qty}</span> <button onClick={() => this.removeHandler(item._id)} className='remove ml-3'>remove</button></li>
                                         ))
                                     }
 

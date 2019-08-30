@@ -9,3 +9,9 @@
 .activity_container ul{
     list-style-position: inside;
 }
+.album_title::after{
+    content: ',';
+}
+.album_title:last-child::after{
+    content: ''
+}
