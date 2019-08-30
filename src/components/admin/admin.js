@@ -32,7 +32,7 @@ class Admin extends Component {
             },
         });
 
-        if (localStorage.getItem('userRole') !== 'admin') {
+        if (localStorage.getItem('userRole') !== 'admin') {git 
             this.props.history.push('/login')
             console.log('You are not Allow to visit this page');
         }
