@@ -1,6 +1,9 @@
 .card {
   border: none !important;
 }
+.main_content{
+  padding-bottom: 70px;
+}
 .card-body {
   padding: 10px !important;
 }
@@ -21,6 +24,8 @@
   padding: 5px 15px;
   border: 1px solid #eee;
   border-radius: 15px;
+  cursor: pointer;
+  box-shadow: -1px 5px 5px #dcdcdc;
 }
 .filter  input{
   outline: none;
@@ -28,4 +33,9 @@
 .filter input:hover,.filter input:focus{
   box-shadow: none;
   border-color: #eee;
+}
+@media all and (max-width: 768px){
+  .main_content{
+    padding-bottom: 30px;
+  }
 }

@@ -133,6 +133,7 @@ router.post('/cart', function (req, res) {
 
     var cartobj = new cart();
     cartobj.album = req.body.album;
+    cartobj.album_id = req.body.album_id;
     cartobj.user_id = req.body.user;
     cartobj.save((err, cart) => {
         if (err) {
@@ -180,7 +181,7 @@ router.get('/cart/:id', function (req, res) {
 
 router.delete('/cart/:id', function (req, res) {
     let id = req.params.id;
-    cart.find({ }).exec(function (err, cart) {
+    cart.deleteMany({album_id:id}).exec(function (err, cart) {
         if (err) {
             res.send('error occured ' + err);
         } else {
@@ -325,7 +326,7 @@ router.post('/user', function (req, res) {
                     if (err) {
                         console.log('err' + err);
                     } else {
-                        res.json({ status: 200, message: 'New user Added Successfully' });
+                        res.json({ inserteduser, status: 200, message: 'New user Added Successfully' });
                     }
                 });
             }

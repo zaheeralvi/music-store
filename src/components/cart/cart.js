@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import './cart.css'
+import Spinner from 'react-bootstrap/Spinner'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 class Cart extends Component {
 
     constructor(props) {
@@ -10,12 +14,14 @@ class Cart extends Component {
         // initialize state
         this.state = {
             cart: [],
-            album: []
+            album: [],
+            loading: true
         }
 
         this.getCartData();
     }
 
+    notify = (msg) => toast(msg);
 
     getCartData() {
         let id = localStorage.getItem('userID');
@@ -49,6 +55,7 @@ class Cart extends Component {
                 }
                 this.setState({
                     album: albumList,
+                    loading: false
                 })
 
 
@@ -56,7 +63,8 @@ class Cart extends Component {
                 console.log(error)
             })
         } else {
-            console.log('Login to Add Items into Cart')
+            this.notify('Login to Add Items into Cart')
+            // console.log('Login to Add Items into Cart')
         }
     }
 
@@ -68,11 +76,14 @@ class Cart extends Component {
         axios.delete('/api/cart/' + id).then(response => {
             console.log(response)
             if (response.status === 200) {
-                let data = this.state.album;
-                data = data.filter(a => a.album._id !== id)
-                this.setState({
-                    album: data,
-                })
+                if (response.data.cart.n > 0) {
+                    this.notify('Cart Updated Successfully')
+                    let data = this.state.album;
+                    data = data.filter(a => a.album._id !== id)
+                    this.setState({
+                        album: data,
+                    })
+                }
             } else {
                 console.log('Error Message')
             }
@@ -82,31 +93,38 @@ class Cart extends Component {
     }
 
     checkoutHandler() {
-        console.log(this.state.album)
-        let title = []
-        for (let i = 0; i < this.state.album.length; i++) {
-            title = [...title, this.state.album[i].album.title]
-        }
-        let data = {
-            album: title,
-            username: localStorage.getItem('username'),
-            user_id: localStorage.getItem('userID'),
-        }
-        axios.post('/api/checkout', data).then(response => {
-            console.log(response)
-            if (response.data.status === 200) {
-                this.setState({
-                    album: [],
-                    cart: []
-                })
+        // console.log(this.state.album)
+        if (this.state.album.length > 0) {
+            let title = []
+            for (let i = 0; i < this.state.album.length; i++) {
+                title = [...title, this.state.album[i].album.title]
             }
-        })
+            let data = {
+                album: title,
+                username: localStorage.getItem('username'),
+                user_id: localStorage.getItem('userID'),
+            }
+            axios.post('/api/checkout', data).then(response => {
+                console.log(response)
+                if (response.data.status === 200) {
+                    this.setState({
+                        album: [],
+                        cart: []
+                    })
+                    this.notify('Order Placed Successfully')
+                    this.props.history.push('/')
+                }
+            })
+        }else{
+            this.props.history.push('/')
+        }
     }
 
     render() {
         var { cart, album } = this.state;
         return (
             <div className='artist_page'>
+                <ToastContainer />
                 <div className='container'>
                     <div className='row'>
                         <div className='col-md-6 col-xs-12 pt-5'>
@@ -119,6 +137,9 @@ class Cart extends Component {
                                         album.map(item => (
                                             <li>{item.album.title} - {item.album.artist.name} - Price: <span className='price'>$ {item.album.price} Quantity: {item.qty}</span> <button onClick={() => this.removeHandler(item.album._id)} className='remove ml-3'>remove</button></li>
                                         ))
+                                    }
+                                    {
+                                        this.state.loading ? <Spinner animation="grow" /> : null
                                     }
                                     {
                                         album.length === 0 ? <li>No Data Found</li> : null

@@ -41,7 +41,7 @@ class Artist extends Component {
                     <div className='row'>
                         <div className='col-md-6 col-xs-12 pt-5'>
                             <NavLink to='/' className='back mb-3'>Back</NavLink>
-                            <h3 className='Title text-capitalize'>{name} <span className='btn_follow float-right'>follow</span></h3>
+                            <h3 className='Title text-capitalize'>{name} {/*<span className='btn_follow float-right'>follow</span>*/}</h3>
                             <div className='albums pt-4'>
                                 <h6>Albums:</h6>
                             </div>

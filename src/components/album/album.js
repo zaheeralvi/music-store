@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import './album.css'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class Album extends Component {
     constructor(props) {
@@ -16,6 +18,8 @@ class Album extends Component {
 
         this.getAlbumData();
     }
+
+    notify = (msg) => toast(msg);
 
     getAlbumData() {
         let id = this.props.match.params.id;
@@ -38,23 +42,25 @@ class Album extends Component {
     }
 
     AddToCart(id) {
-        let userId=localStorage.getItem('userID')
-        if ((userId !== '') && (userId !== undefined) && (userId != null)) { 
+        let userId = localStorage.getItem('userID')
+        if ((userId !== '') && (userId !== undefined) && (userId != null)) {
             let data = {
                 album: id,
+                album_id: id._id,
                 user: localStorage.getItem('userID')
             }
             axios.post('/api/cart', data).then(response => {
                 console.log(response)
                 if (response.status === 200) {
-                    console.log("Album Add to Cart Successfully")
+                        this.notify('Album Add to Cart Successfully')
+                    // console.log("Album Add to Cart Successfully")
                 } else {
                     console.log('Error Message')
                 }
             }, error => {
                 // console.log(error)
             })
-        }else{
+        } else {
             this.props.history.push('/login');
         }
     }
@@ -62,6 +68,7 @@ class Album extends Component {
         var { album, songs, artist } = this.state;
         return (
             <div className='artist_page'>
+                <ToastContainer />
                 <div className='container'>
                     <div className='row'>
                         <div className='col-md-6 col-xs-12 pt-5'>

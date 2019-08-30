@@ -7,6 +7,9 @@ import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button'
 // import FormControl from 'react-bootstrap/FormControl'
+import Spinner from 'react-bootstrap/Spinner'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class Admin extends Component {
 
@@ -23,6 +26,7 @@ class Admin extends Component {
             image: '',
             allActivities: [],
             data: [],
+            loading: true
         }
 
         // initialize validation messages
@@ -33,12 +37,14 @@ class Admin extends Component {
         });
 
         if (localStorage.getItem('userRole') !== 'admin') {
-            this.props.history.push('/login')
             console.log('You are not Allow to visit this page');
+            this.props.history.push('/')
         }
         this.getActivities();
 
     }
+
+    notify = (msg) => toast(msg);
 
     getActivities() {
         // let id=localStorage.getItem('userID');
@@ -48,6 +54,7 @@ class Admin extends Component {
                 this.setState({
                     allActivities: response.data.data,
                     data: response.data.data,
+                    loading: false
                 })
             }
             console.log(this.state.data)
@@ -68,15 +75,14 @@ class Admin extends Component {
             axios.post('/api/album', album).then(response => {
                 console.log(response)
                 if (response.data.status === 200) {
-                    console.log(response.data.message);
+                    // console.log(response.data.message);
+                    this.notify(response.data.message)
                     this.setState({
                         artist: '',
                         title: '',
-                        genre: '',
-                        songs: [],
-                        image: '',
                         price: Number,
                     })
+                    document.getElementById("albumForm").reset();
                 } else {
                     console.log('Error Message')
                 }
@@ -129,11 +135,12 @@ class Admin extends Component {
         var { data } = this.state;
         return (
             <div className='admin_page pt-5'>
+                <ToastContainer />
                 <div className='container'>
                     <div className='row'>
                         <div className='col-md-6 col-xs-12 form_container'>
                             <h2 className='text-center'>Add Item</h2>
-                            <Form onSubmit={this.addAlbumHandler.bind(this)} noValidate>
+                            <Form onSubmit={this.addAlbumHandler.bind(this)} id='albumForm' noValidate>
                                 <Form.Group controlId="formGroupEmail">
                                     <Form.Label>Artist Name</Form.Label>
                                     <input type="text" name="artist" className='form-control' placeholder="Artist Name" required value={this.state.artist} onChange={(e) => { this.setState({ artist: e.target.value }) }} />
@@ -206,6 +213,9 @@ class Admin extends Component {
                                                     )}
                                                 </li>
                                             ))
+                                        }
+                                        {
+                                            this.state.loading ? <Spinner animation="grow" /> : null
                                         }
                                         {
                                             data.length === 0 ? 'No Data Found' : null

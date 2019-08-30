@@ -62,7 +62,7 @@ class Header extends Component {
                             : null}
                         <NavLink className='link' to="/cart">Cart</NavLink>
                         {this.state.isLogged ?
-                            <button className='link' onClick={() => this.logoutHandler()}>Logout</button>
+                            <button className='btn logout' onClick={() => this.logoutHandler()}>Logout</button>
                             : null}
                     </Nav>
                 </Navbar.Collapse>

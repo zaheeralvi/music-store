@@ -6,6 +6,8 @@ import Card from 'react-bootstrap/Card'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button'
 import FormControl from 'react-bootstrap/FormControl'
+import Spinner from 'react-bootstrap/Spinner'
+import { validate } from '@babel/types';
 
 class Home extends Component {
 
@@ -19,6 +21,7 @@ class Home extends Component {
             genreList: ['rock', 'pop', 'electronic', 'hip-hop'],
             activePage: 1,
             length: 1,
+            loading: true
         }
 
         this.getAlbums();
@@ -30,23 +33,23 @@ class Home extends Component {
             console.log(response)
             if (response.status === 200) {
                 let limit = response.data.filter((item, index) => {
-                    return response.data.indexOf(item) < 9
+                    return response.data.indexOf(item) < (9 * this.state.activePage)
                 })
+                let len = Math.ceil(response.data.length / 9)
                 this.setState({
                     fullData: response.data,
                     data: limit,
-                    length: response.data.length
+                    length: len,
+                    loading: false
                 })
-                console.log(this.state.fullData)
+                console.log(this.state.length)
+                console.log('this.state.length')
             } else {
                 console.log('Error Message')
             }
         }, error => {
             console.log(error)
         })
-        console.log(this.state.fullData)
-        console.log(this.state.data)
-        console.log(this.state.length)
     }
 
     FilterList(genre) {
@@ -73,12 +76,28 @@ class Home extends Component {
         })
     }
 
-    handlePageChange(p) {
-        console.log(`active page is ${p}`);
-        // this.setState({
-        //     activePage: pageNumber
-        // })
+    handlePageChange(val) {
+        let page = parseInt(val) + this.state.activePage
+        if ((page) > 0 && ((page) < (this.state.length + 1))) {
+            if (val === '1') {
+                let limit = this.state.fullData.filter((item, index) => {
+                    return (this.state.fullData.indexOf(item) < (9 * page) && this.state.fullData.indexOf(item) >= (9 * this.state.activePage))
+                })
+                this.setState({
+                    data: limit,
+                    activePage: page
+                })
+            } else {
+                let limit = this.state.fullData.filter((item, index) => {
+                    return (this.state.fullData.indexOf(item) < (9 * page) && this.state.fullData.indexOf(item) >= (9 * (page-1)))
+                })
+                this.setState({
+                    data: limit,
+                    activePage: page
+                })
+            }
 
+        }
     }
 
 
@@ -101,7 +120,7 @@ class Home extends Component {
                         <div className='col-sm-9 main_content pt-5'>
                             <div className='row'>
                                 <div className='col-12'>
-                                    <div className='filter col-md-4 col-xs-12 float-right p-0'>
+                                    <div className='filter col-md-5 col-xs-12 float-right p-0'>
                                         <InputGroup className="mb-3">
                                             {/* <FormControl aria-describedby="basic-addon1" /> */}
                                             <input type='text' className='form-control' placeholder='Filter by Album Name' onChange={(e) => this.FilterByName(e.target.value)} />
@@ -114,7 +133,7 @@ class Home extends Component {
 
                                 {
                                     data.map(album => (
-                                        <div className='col-md-4 col-sm-5 col-xs-6 mb-4'>
+                                        <div className='col-md-4 col-sm-4 col-xs-6 mb-4'>
                                             <Card>
                                                 <NavLink to={'/album/' + album._id}>
                                                     <Card.Img height='200px' variant="top" src={album.image} />
@@ -126,6 +145,9 @@ class Home extends Component {
                                             </Card>
                                         </div>
                                     ))
+                                }
+                                {
+                                    this.state.loading ? <div><Spinner animation="grow" /></div> : null
                                 }
                                 {
                                     data.length === 0 ? <div className='col-12 text-center'><h5>No Data Found</h5></div> : null
@@ -143,8 +165,8 @@ class Home extends Component {
                             </div>
                             <div>
                                 <ul className="pager text-center mt-3">
-                                    <li><span onClick={()=>this.handlePageChange('1')}>Previous</span></li>
-                                    <li><span onClick={()=>this.handlePageChange('-1')}>Next</span></li>
+                                    <li><span onClick={() => this.handlePageChange('-1')}>Previous</span></li>
+                                    <li><span onClick={() => this.handlePageChange('1')}>Next</span></li>
                                 </ul>
                             </div>
                         </div>
