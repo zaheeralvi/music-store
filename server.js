@@ -17,7 +17,6 @@ app.use('/api',api);
 
 app.get("*",(req,res) => {
     // res.send('api works');
-    debugger
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 
 });
