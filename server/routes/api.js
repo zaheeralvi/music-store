@@ -25,7 +25,7 @@ mongoose.connect(db, function (err) {
 // comment out this line after creating admin user
 require('../seed/admin.js');
 
-// Device Api's
+// Album Api's
 router.get('/albums', function (req, res) {
     album.find({}).exec(function (err, albums) {
         if (err) {
@@ -59,21 +59,6 @@ router.post('/album', function (req, res) {
     })
 
 
-});
-
-router.get('/albums', function (req, res) {
-    album.find({}).exec(function (err, albums) {
-        if (err) {
-            res.send('error occured ' + err);
-        } else {
-            if (albums === undefined || albums.length == 0) {
-                // res.sendStatus(404);
-                res.json({ status: 404, message: 'No Data Found' });
-            } else {
-                res.json({ data: albums, status: 200 });
-            }
-        }
-    });
 });
 
 router.get('/album/:id', function (req, res) {
@@ -222,6 +207,8 @@ router.post('/checkout', function (req, res) {
                         res.json({ data, status: 200, message: 'Order Placed Successfully' });
                     }
                 });
+            }else{
+                res.json({data,status:200,message: 'Sorry Problem Occured, Try Again Later' })
             }
         }
     });
@@ -247,42 +234,6 @@ router.delete('/checkout', function (req, res) {
         }
     });
 });
-
-// router.patch('/product/:id',function (req,res) {
-
-//     Product.findByIdAndUpdate(req.params.id,{
-//        $set:{Name:req.body.Name,Cost:req.body.Cost,Expiry:req.body.Expiry,Warranty:req.body.Warranty}
-//     },{
-//         new: true
-//     }, function (err,updatedProduct) {
-//             if(err){
-//                 console.log('Error occured '+ err);
-//             }else{
-//                 res.json(updatedProduct);
-//             }
-//         }
-//     );
-
-// });
-
-// router.post('/product',function (req,res) {
-
-//     var newProduct = new Product();
-//     newProduct.Name = req.body.Name;
-//     newProduct.Cost = req.body.Cost;
-//     newProduct.Warranty = req.body.Warranty;
-//     newProduct.Image = req.body.Image;
-//     newProduct.Expiry = req.body.Expiry;
-//     newProduct.save(function (err,insertedProduct) {
-//         if(err){
-//             console.log('err'+err);
-//         }else{
-//             res.statusCode(200);
-//             res.json(insertedProduct);
-//         }
-//     });
-// });
-
 
 
 // user Api's

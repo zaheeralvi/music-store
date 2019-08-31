@@ -21,8 +21,9 @@ class Admin extends Component {
             artist: '',
             title: '',
             genre: '',
-            price: Number,
+            price: '',
             songs: [],
+            song: '',
             image: '',
             allActivities: [],
             data: [],
@@ -77,11 +78,11 @@ class Admin extends Component {
                 if (response.data.status === 200) {
                     // console.log(response.data.message);
                     this.notify(response.data.message)
-                    this.setState({
-                        artist: '',
-                        title: '',
-                        price: Number,
-                    })
+                    // this.setState({
+                    //     artist: '',
+                    //     title: '',
+                    //     price: Number,
+                    // })
                     document.getElementById("albumForm").reset();
                 } else {
                     console.log('Error Message')
@@ -98,6 +99,11 @@ class Admin extends Component {
     songHandler(e, i) {
         let oldList = this.state.songs;
         oldList[i] = e.target.value;
+        if(i===0){
+            this.setState({
+                song: e.target.value
+            })
+        }
         this.setState({
             songs: oldList
         })
@@ -143,22 +149,22 @@ class Admin extends Component {
                             <Form onSubmit={this.addAlbumHandler.bind(this)} id='albumForm' noValidate>
                                 <Form.Group controlId="formGroupEmail">
                                     <Form.Label>Artist Name</Form.Label>
-                                    <input type="text" name="artist" className='form-control' placeholder="Artist Name" required value={this.state.artist} onChange={(e) => { this.setState({ artist: e.target.value }) }} />
+                                    <input type="text" name="artist" className='form-control' placeholder="Artist Name" required onChange={(e) => { this.setState({ artist: e.target.value }) }} />
                                     {this.validator.message('artist', this.state.artist, 'required')}
                                 </Form.Group>
                                 <Form.Group controlId="formGroupPassword">
                                     <Form.Label>Album</Form.Label>
-                                    <input type="text" name="title" className='form-control' placeholder="Album Title" required value={this.state.title} onChange={(e) => { this.setState({ title: e.target.value }) }} />
+                                    <input type="text" name="title" className='form-control' placeholder="Album Title" required onChange={(e) => { this.setState({ title: e.target.value }) }} />
                                     {this.validator.message('title', this.state.title, 'required')}
                                 </Form.Group>
                                 <Form.Group controlId="formGroupPassword">
                                     <Form.Label>Price</Form.Label>
-                                    <input type="number" name="price" className='form-control' placeholder="Album Price" required value={this.state.price} onChange={(e) => { this.setState({ price: e.target.value }) }} />
-                                    {this.validator.message('title', this.state.title, 'required')}
+                                    <input type="number" name="price" className='form-control' placeholder="Album Price" required onChange={(e) => { this.setState({ price: e.target.value }) }} />
+                                    {this.validator.message('price', this.state.price, 'required')}
                                 </Form.Group>
                                 <Form.Group controlId="formGroupPassword">
                                     <Form.Label>Genre</Form.Label>
-                                    <Form.Control as="select" value={this.state.genre} onChange={(e) => { this.setState({ genre: e.target.value }) }}>
+                                    <Form.Control as="select" onChange={(e) => { this.setState({ genre: e.target.value }) }}>
                                         <option value=''>Select Genere</option>
                                         <option value='rock'>Rock</option>
                                         <option value='pop'>Pop</option>
@@ -174,8 +180,9 @@ class Admin extends Component {
                                 </Form.Group>
                                 <Form.Group controlId="formGroupPassword">
                                     <Form.Label>Tracklist</Form.Label>
-                                    <input type="text" name="track1" className='form-control mb-2' placeholder="Track 1" required onChange={(e) => { this.songHandler(e, 0) }} />
-                                    {/* {this.validator.message('song', this.state.song[0], 'required')} */}
+                                    <input type="text" name="track1" className='form-control' placeholder="Track 1" required onChange={(e) => { this.songHandler(e, 0) }} />
+                                    {this.validator.message('song', this.state.song, 'required')}
+                                    <p className='mb-2'></p>
                                     <input type="text" name="track2" className='form-control mb-2' placeholder="Track 2" required onChange={(e) => { this.songHandler(e, 1) }} />
                                     {/* {this.validator.message('song', this.state.song[1], 'required')} */}
                                     <input type="text" name="track3" className='form-control mb-2' placeholder="Track 3" required onChange={(e) => { this.songHandler(e, 2) }} />
