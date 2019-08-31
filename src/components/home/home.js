@@ -18,7 +18,7 @@ class Home extends Component {
         this.state = {
             fullData: [],
             data: [],
-            genreList: ['rock', 'pop', 'electronic', 'hip-hop'],
+            genreList: ['all','rock', 'pop', 'electronic', 'hip-hop'],
             activePage: 1,
             length: 1,
             loading: true
@@ -54,15 +54,24 @@ class Home extends Component {
 
     FilterList(genre) {
         // console.log(genre);
-        let data = [];
-        let newdata = [];
-        data = [...data, this.state.fullData];
-        // console.log(data)
-        newdata = data[0].filter(d => d.genre === genre)
-        this.setState({
-            data: newdata
-        })
-        // console.log(this.state.data)
+        if(genre==='all'){
+            let limit = this.state.fullData.filter((item, index) => {
+                return this.state.fullData.indexOf(item) < 9 
+            })
+            this.setState({
+                data: limit,
+                activePage: 1
+            })
+        }else{
+            let data = [];
+            let newdata = [];
+            data = [...data, this.state.fullData];
+            // console.log(data)
+            newdata = data[0].filter(d => d.genre === genre)
+            this.setState({
+                data: newdata
+            })
+        }
     }
 
     FilterByName(val) {

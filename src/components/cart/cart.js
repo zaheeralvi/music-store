@@ -5,6 +5,7 @@ import './cart.css'
 import Spinner from 'react-bootstrap/Spinner'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { throwStatement } from '@babel/types';
 
 class Cart extends Component {
 
@@ -15,7 +16,8 @@ class Cart extends Component {
         this.state = {
             cart: [],
             album: [],
-            loading: true
+            loading: true,
+            totalPrice: 0
         }
 
         this.getCartData();
@@ -53,9 +55,15 @@ class Cart extends Component {
                         // console.log(albumList)
                     }
                 }
+                let totalPrice = 0;
+                for (let i = 0; i < albumList.length; i++) {
+                    totalPrice = totalPrice + (albumList[i].qty * albumList[i].album.price)
+                }
+                console.log(totalPrice)
                 this.setState({
                     album: albumList,
-                    loading: false
+                    loading: false,
+                    totalPrice: totalPrice
                 })
 
 
@@ -115,7 +123,7 @@ class Cart extends Component {
                     this.props.history.push('/')
                 }
             })
-        }else{
+        } else {
             this.props.history.push('/')
         }
     }
@@ -130,12 +138,24 @@ class Cart extends Component {
                         <div className='col-md-6 col-xs-12 pt-5'>
                             <NavLink to='/' className='back mb-3'>Back</NavLink>
 
-                            <div className='albums'>
-                                <ul className='list-unstyled'>
-
+                            <div className='albums table-responsive'>
+                                <table className='table table-bordered table-striped table-hover'>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Artist Name</th>
+                                        <th className='text-center'>Unit Price ($)</th>
+                                        <th className='text-center'>Quantity</th>
+                                        <th></th>
+                                    </tr>
                                     {
                                         album.map(item => (
-                                            <li>{item.album.title} - {item.album.artist.name} - Price: <span className='price'>$ {item.album.price} Quantity: {item.qty}</span> <button onClick={() => this.removeHandler(item.album._id)} className='remove ml-3'>remove</button></li>
+                                            <tr>
+                                                <td>{item.album.title}</td>
+                                                <td>{item.album.artist.name}</td>
+                                                <td className='text-center'>{item.album.price}</td>
+                                                <td className='text-center'>{item.qty}</td>
+                                                <td><button onClick={() => this.removeHandler(item.album._id)} className='remove ml-3'>remove</button></td>
+                                            </tr>
                                         ))
                                     }
                                     {
@@ -148,8 +168,16 @@ class Cart extends Component {
                                     {/* <li>Album Title 2 - Artist - Price: <span className='price'>$ 5</span> <span className='remove ml-3'>remove</span></li>
                                     <li>Album Title 3 - Artist - Price: <span className='price'>$ 5</span> <span className='remove ml-3'>remove</span></li>
                                     <li className='total'>Total: $ 15</li> */}
-                                </ul>
-                                <button className='checkout' onClick={() => this.checkoutHandler()}>Checkout</button>
+                                    {album.length > 0 ?
+                                        <tr>
+                                            <td colSpan='2'><strong>Total: ($)</strong></td>
+                                            <td className='text-center'><strong>{this.state.totalPrice}</strong></td>
+                                            <td colSpan='2' className='text-right'>
+                                                <button className='checkout' onClick={() => this.checkoutHandler()}>Checkout</button>
+                                            </td>
+                                        </tr>
+                                        : null}
+                                </table>
                             </div>
                         </div>
                     </div>

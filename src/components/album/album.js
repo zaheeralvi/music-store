@@ -64,6 +64,21 @@ class Album extends Component {
             this.props.history.push('/login');
         }
     }
+
+    deleteAlbum(id){
+        axios.delete('/api/album/delete/'+id).then(response => {
+            console.log(response)
+            if (response.data.status === 200) {
+                    this.notify('Album Deleted Successfully')
+                    this.props.history.push('/')
+                } else {
+                console.log('Error Message')
+            }
+        }, error => {
+            // console.log(error)
+        })
+    }
+
     render() {
         var { album, songs, artist } = this.state;
         return (
@@ -84,6 +99,7 @@ class Album extends Component {
                                 </div>
                             </div>
                             <div className='albums pt-4'>
+                                <h6>Price: <strong>{album.price}</strong></h6>
                                 <h6>Tracklist:</h6>
                                 <ol className='pl-4'>
                                     {
@@ -94,7 +110,12 @@ class Album extends Component {
                                     {/* <li>2. Song b</li>
                                     <li>3. Song c</li> */}
                                 </ol>
-                                <button className='add_to_cart' onClick={() => this.AddToCart(album)} >Add to Cart</button>
+                                <button className='add_to_cart mb-2' onClick={() => this.AddToCart(album)} >Add to Cart</button><br/>
+                                {
+                                    localStorage.getItem('userRole') === 'admin' ?
+                                    <button className='delete btn btn-danger' onClick={() => this.deleteAlbum(album._id)} >Delete Album</button>
+                                    : null
+                                }
                             </div>
                         </div>
                     </div>
